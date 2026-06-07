@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البوابة الرسمية الشاملة | Los Santos Fire Department</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Glow effects */
+        .glow-orange {
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);
+        }
+        .glow-red {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f97316;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ea580c;
+        }
+    </style>
+</head>
+<body class="bg-[#020617] text-slate-100 min-h-screen flex flex-col overflow-x-hidden selection:bg-orange-600 selection:text-white">
+
+    <!-- TOP HEADER / GLOWING NAVIGATION -->
+    <header class="bg-[#0b1329]/90 border-b border-slate-800 backdrop-blur-md sticky top-0 z-50 px-4 py-3 lg:px-8 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="p-2.5 bg-gradient-to-br from-orange-600 to-red-600 rounded-2xl shadow-lg glow-orange">
+                    <i class="fa-solid fa-fire-flame-curved text-2xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-2xl tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">موقع لوس سانتوس للدفاع والإنقاذ (LSFD)</h1>
+                    <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">البوابة الرقمية الرسمية والكاملة للمنظومة</p>
+                </div>
+            </div>
+
+            <!-- Quick Server Stats & System Status -->
+            <div class="flex items-center gap-4 text-xs">
+                <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-slate-800/80 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></span>
+                    <span class="font-semibold text-slate-300">مرحلة الانتقال: نشطة %100</span>
+                </div>
+                <div class="bg-slate-950/80 px-4 py-2 rounded-xl border border-slate-800/80 text-left">
+                    <span class="text-slate-400 font-semibold">توقيت القيادة:</span>
+                    <span id="live-timer" class="font-mono text-orange-500 font-black ml-1">--:--:--</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY GRID CONTAINER -->
+    <div class="max-w-7xl mx-auto w-full p-4 lg:p-8 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- SIDEBAR NAVIGATION / CONTROLLER (3 Cols) -->
+        <aside class="lg:col-span-3 flex flex-col gap-4">
+            <div class="bg-[#0b1329] border border-slate-800 p-5 rounded-2xl flex flex-col gap-2.5 shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-40 h-40 bg-orange-600/5 rounded-full blur-3xl"></div>
+                
+                <p class="text-xs font-black text-slate-400 px-3 uppercase tracking-wider mb-2">أقسام البوابة الرسمية</p>
+                
+                <button onclick="switchTab('dashboard')" id="btn-tab-dashboard" class="tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all bg-slate-800/80 text-orange-500 font-bold border-r-4 border-orange-500 shadow-md">
+                    <span class="flex items-center gap-3">
+                        <i class="fa-solid fa-chart-line text-lg"></i>
+                        الرئيسية والمؤشرات
+                    </span>
+                    <i class="fa-solid fa-chevron-left text-xs opacity-50"></i>
+                </button>
+
+                <button onclick="switchTab('sops')" id="btn-tab-sops" class="tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <span class="flex items-center gap-3">
+                        <i class="fa-solid fa-shield-halved text-lg"></i>
+                        الأدلة والبروتوكولات (SOP)
+                    </span>
+                    <i class="fa-solid fa-chevron-left text-xs opacity-50"></i>
+                </button>
+
+                <button onclick="switchTab('academy')" id="btn-tab-academy" class="tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <span class="flex items-center gap-3">
+                        <i class="fa-solid fa-graduation-cap text-lg"></i>
+                        الأكاديمية وبطاقة التقييم
+                    </span>
+                    <i class="fa-solid fa-chevron-left text-xs opacity-50"></i>
+                </button>
+
+                <button onclick="switchTab('radio-codes')" id="btn-tab-radio-codes" class="tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <span class="flex items-center gap-3">
+                        <i class="fa-solid fa-walkie-talkie text-lg"></i>
+                        كتالوج الراديو (10-Codes)
+                    </span>
+                    <i class="fa-solid fa-chevron-left text-xs opacity-50"></i>
+                </button>
+
+                <button onclick="switchTab('penalties')" id="btn-tab-penalties" class="tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <span class="flex items-center gap-3">
+                        <i class="fa-solid fa-scale-balanced text-lg"></i>
+                        الجزاءات وحساب الترقيات
+                    </span>
+                    <i class="fa-solid fa-chevron-left text-xs opacity-50"></i>
+                </button>
+
+                <button onclick="switchTab('workshops')" id="btn-tab-workshops" class="tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <span class="flex items-center gap-3">
+                        <i class="fa-solid fa-kit-medical text-lg"></i>
+                        ورش العمل والبروتوكولات
+                    </span>
+                    <i class="fa-solid fa-chevron-left text-xs opacity-50"></i>
+                </button>
+            </div>
+
+            <!-- Global Alert Box (Staffing Needs) -->
+            <div id="volunteer-broadcast-card" class="bg-gradient-to-br from-red-950/40 to-slate-900 border border-red-900/40 p-5 rounded-2xl flex flex-col gap-3 shadow-xl relative overflow-hidden">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-md"></span>
+                    <h4 class="font-extrabold text-red-400 text-sm">حالة تشغيل المستشفيات</h4>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed font-semibold">بند الإسناد التطوعي والتبادلي في أجنحة المستشفيات (MOH Transition) يعتبر إلزامياً على الوحدات الشاغرة عند الضغط.</p>
+                <div class="h-[1px] bg-slate-800"></div>
+                <div class="flex justify-between items-center text-[10px] text-slate-400 font-bold">
+                    <span>نسبة الإشغال الإجمالية:</span>
+                    <span id="hospital-total-capacity-badge" class="text-orange-400">50%</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN WORKSPACE WORKAREA (9 Cols) -->
+        <main class="lg:col-span-9 flex flex-col gap-6">
+
+            <!-- TAB 1: DASHBOARD & GLOBAL OVERVIEW -->
+            <div id="tab-dashboard" class="tab-content flex flex-col gap-6">
+                <!-- Transition Quick Banner -->
+                <div class="bg-gradient-to-r from-orange-600/20 to-red-600/10 border border-orange-500/20 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-orange-600/20 text-orange-400 rounded-xl">
+                            <i class="fa-solid fa-arrows-spin text-2xl animate-spin"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-lg text-slate-100">بوابة التحول الاستراتيجي الموحد (2026)</h3>
+                            <p class="text-xs text-slate-400 mt-0.5 font-semibold">الانتقال النهائي والكامل من ملاك وزارة الصحة إلى ملاك Los Santos Fire Department</p>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('sops')" class="bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs px-5 py-3 rounded-xl transition shadow-lg shadow-orange-950/40 flex items-center gap-2">
+                        <i class="fa-solid fa-file-contract"></i>
+                        معاينة قرار الترسيم والاعتماد
+                    </button>
+                </div>
+
+                <!-- Tactical Live Statistics Rows -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-[#0b1329] border border-slate-800 p-5 rounded-2xl flex items-center justify-between shadow-xl">
+                        <div>
+                            <span class="text-xs font-black text-slate-400">الوحدات في الميدان</span>
+                            <h3 class="text-3xl font-black text-slate-100 mt-1">4 <span class="text-xs text-emerald-400 font-bold ml-1">10-8</span></h3>
+                        </div>
+                        <div class="p-3.5 bg-emerald-500/10 text-emerald-500 rounded-xl"><i class="fa-solid fa-truck-medical text-xl"></i></div>
+                    </div>
+
+                    <div class="bg-[#0b1329] border border-slate-800 p-5 rounded-2xl flex items-center justify-between shadow-xl">
+                        <div>
+                            <span class="text-xs font-black text-slate-400">إشغال الجناح الأحمر</span>
+                            <h3 class="text-3xl font-black text-slate-100 mt-1"><span id="dash-bed-count">3</span> / 5</h3>
+                        </div>
+                        <div class="p-3.5 bg-red-500/10 text-red-500 rounded-xl"><i class="fa-solid fa-bed-pulse text-xl"></i></div>
+                    </div>
+
+                    <div class="bg-[#0b1329] border border-slate-800 p-5 rounded-2xl flex items-center justify-between shadow-xl">
+                        <div>
+                            <span class="text-xs font-black text-slate-400">متوسط سرعة الاستجابة</span>
+                            <h3 class="text-3xl font-black text-slate-100 mt-1">3.4 <span class="text-xs text-slate-400 font-bold">دقيقة</span></h3>
+                        </div>
+                        <div class="p-3.5 bg-blue-500/10 text-blue-500 rounded-xl"><i class="fa-solid fa-stopwatch text-xl"></i></div>
+                    </div>
+
+                    <div class="bg-[#0b1329] border border-slate-800 p-5 rounded-2xl flex items-center justify-between shadow-xl">
+                        <div>
+                            <span class="text-xs font-black text-slate-400">كود حماية الكوادر</span>
+                            <h3 class="text-3xl font-black text-slate-100 mt-1 text-emerald-400">آمن</h3>
+                        </div>
+                        <div class="p-3.5 bg-amber-500/10 text-amber-500 rounded-xl"><i class="fa-solid fa-shield-heart text-xl"></i></div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Grid for Layout: Quick Actions & Live Simulator -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Dispatch & Transition Checklist (8 Cols) -->
+                    <div class="lg:col-span-8 bg-[#0b1329] border border-slate-800 rounded-2xl p-6 flex flex-col gap-6 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                            <div>
+                                <h4 class="font-extrabold text-base text-slate-100">أجندة وخارطة طريق الانتقال الميداني</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">تفاصيل خطة إحلال الكوادر الطبية والميكانيكية بنجاح.</p>
+                            </div>
+                            <span class="px-2.5 py-1 bg-orange-600/10 border border-orange-500/20 text-orange-400 text-xs rounded-full font-bold">المرحلة الثالثة والأخيرة</span>
+                        </div>
+
+                        <!-- Interactive transition tasks checkmarks -->
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-start gap-3 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
+                                <input type="checkbox" checked disabled class="accent-orange-500 w-5 h-5 rounded cursor-not-allowed mt-0.5">
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-bold text-slate-200 line-through">إلغاء مسمى "وزارة الصحة" المالي والإداري</span>
+                                    <span class="text-xs text-slate-400 mt-0.5">تحويل جميع الملفات وتسكين الكوادر على الرتب العسكرية للـ LSFD.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
+                                <input type="checkbox" checked disabled class="accent-orange-500 w-5 h-5 rounded cursor-not-allowed mt-0.5">
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-bold text-slate-200 line-through">تفعيل ميكانيكية "Drop-and-Go"</span>
+                                    <span class="text-xs text-slate-400 mt-0.5">قصر مدة بقاء المسعف بالمستشفى الرئيسي على 5 دقائق شفهية كحد أقصى.</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
+                                <input id="task-3" type="checkbox" onchange="toggleTask3()" class="accent-orange-500 w-5 h-5 rounded cursor-pointer mt-0.5">
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-bold text-slate-200" id="task-3-title">تشغيل بند الإسناد التطوعي والتبادلي تلقائياً</span>
+                                    <span class="text-xs text-slate-400 mt-0.5">سحب الوحدات الشاغرة من الميدان لتشغيل أجنحة المستشفى عند حدوث عجز مفاجئ.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Guide Notice -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/60 flex items-start gap-3">
+                            <i class="fa-solid fa-circle-info text-orange-500 text-lg mt-0.5"></i>
+                            <div class="flex flex-col gap-1">
+                                <h5 class="font-extrabold text-xs text-slate-200">توجيه صادر من القيادة العليا:</h5>
+                                <p class="text-xs text-slate-400 leading-relaxed font-semibold">"يمنع منعاً باتاً ممارسة الأرسطقراطية الصوتية أو الإدارية على الرتب الدنيا. الإنعاش والعلاج مكفول لجميع الرتب في الميدان لتسريع وتيرة وسيناريوهات اللعب."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hospital Bed occupancy manager Sidebar (4 Cols) -->
+                    <div class="lg:col-span-4 bg-[#0b1329] border border-slate-800 rounded-2xl p-6 flex flex-col gap-6 shadow-xl">
+                        <div class="border-b border-slate-800 pb-3">
+                            <h4 class="font-extrabold text-base text-slate-100">إدارة الأجنحة الميدانية</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">تحديث أسرة غرف الطوارئ.</p>
+                        </div>
+
+                        <!-- Counter widgets for Hospital Bed simulator -->
+                        <div class="flex flex-col gap-4">
+                            <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-bold text-red-400">الأحمر (Trauma Bay)</span>
+                                    <span id="bed-val-red" class="text-[10px] text-slate-400 font-bold mt-0.5">3 / 5 أسرة</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="changeBedCount('red', -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm flex items-center justify-center transition font-bold text-slate-300">-</button>
+                                    <button onclick="changeBedCount('red', 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm flex items-center justify-center transition font-bold text-slate-300">+</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-bold text-yellow-400">الأصفر (Observation)</span>
+                                    <span id="bed-val-yellow" class="text-[10px] text-slate-400 font-bold mt-0.5">2 / 10 أسرة</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="changeBedCount('yellow', -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm flex items-center justify-center transition font-bold text-slate-300">-</button>
+                                    <button onclick="changeBedCount('yellow', 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm flex items-center justify-center transition font-bold text-slate-300">+</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-bold text-blue-400">الأزرق (Clinic Zone)</span>
+                                    <span id="bed-val-blue" class="text-[10px] text-slate-400 font-bold mt-0.5">5 / 15 أسرة</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button onclick="changeBedCount('blue', -1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm flex items-center justify-center transition font-bold text-slate-300">-</button>
+                                    <button onclick="changeBedCount('blue', 1)" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm flex items-center justify-center transition font-bold text-slate-300">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-[10px] text-slate-400 leading-relaxed font-semibold">تأكد من استمرار بقاء المجموع الإجمالي دون مستوى الخطر لتفادي استهلاك الموارد الميدانية دون جدوى طبية.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: SOPS & PROTOCOLS (TRANSITION MASTERPLAN) -->
+            <div id="tab-sops" class="tab-content hidden flex flex-col gap-6">
+                <!-- Transition official document header -->
+                <div class="bg-[#0b1329] border border-slate-800 rounded-2xl p-6 flex flex-col gap-4 shadow-xl">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <h3 class="font-extrabold text-lg text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-file-shield text-orange-500"></i>
+                            وثيقة التخطيط الاستراتيجي والـ SOPs المعتمدة
+                        </h3>
+                        <span class="text-xs text-orange-400 font-black">نسخة معتمدة 2026</span>
+                    </div>
+
+                    <!-- Tabs switcher within document area -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="switchDocPanel('masterplan')" id="btn-doc-masterplan" class="doc-panel-btn px-4 py-2 bg-orange-600 text-white font-bold text-xs rounded-lg transition shadow-md">خطة الانتقال الكبرى</button>
+                        <button onclick="switchDocPanel('sop')" id="btn-doc-sop" class="doc-panel-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg transition">دليل الـ SOPs الميداني</button>
+                        <button onclick="switchDocPanel('lobby')" id="btn-doc-lobby" class="doc-panel-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg transition">بروتوكول LSPD المشترك</button>
+                    </div>
+
+                    <!-- Panel 1: Masterplan Details -->
+                    <div id="doc-panel-masterplan" class="doc-panel-content flex flex-col gap-4 text-sm text-slate-300 mt-2">
+                        <h4 class="font-bold text-slate-200">1. رؤية ومبادئ التحول النهائي</h4>
+                        <p class="leading-relaxed">تأسيس منظومة طوارئ ميدانية تتبع نمط انضباط تشغيلي موحد، وتلغي العقبات البيروقراطية لوزارة الصحة، بحيث يكون الميدان هو مقياس الأداء والمستشفى مركزاً للتفريغ السريع.</p>
+                        
+                        <h4 class="font-bold text-slate-200">2. جدول مقارنة الأنظمة والعمليات الميدانية</h4>
+                        <table class="w-full text-right text-xs bg-slate-950/60 rounded-xl border border-slate-800/80 mt-2">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400 font-bold">
+                                    <th class="p-3">وجه المقارنة</th>
+                                    <th class="p-3">نظام وزارة الصحة السابق (MOH)</th>
+                                    <th class="p-3">نظام الإطفاء الجديد (LSFD)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/50">
+                                <tr>
+                                    <td class="p-3 font-bold text-slate-200">الهوية الإدارية</td>
+                                    <td class="p-3">مدنية بحتة وخاضعة لبيروقراطية طويلة.</td>
+                                    <td class="p-3 text-orange-400 font-bold">شبه عسكرية منضبطة بالرتب والشعارات.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-slate-200">اتخاذ القرار</td>
+                                    <td class="p-3">مركزية خانقة بانتظار المدير.</td>
+                                    <td class="p-3 text-emerald-400 font-bold">لامركزية تامة؛ القائد بالموقع يقرر فوراً.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-slate-200">التفريغ والقبول</td>
+                                    <td class="p-3">ملفات ورقية وانتظار المسعف بالمستشفى.</td>
+                                    <td class="p-3 text-orange-400 font-bold">بروتوكول Drop-and-Go خلال 5 دقائق.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Panel 2: General Medical SOP -->
+                    <div id="doc-panel-sop" class="doc-panel-content hidden flex flex-col gap-4 text-sm text-slate-300 mt-2">
+                        <h4 class="font-bold text-slate-200">1. تسلسل المراجع وسلسلة القيادة (CoC)</h4>
+                        <p class="leading-relaxed">يُحظر تماماً على منسوبي الـ LSFD تخطي المراجع الميدانية في الراديو أو الشكاوى الإدارية. التسلسل إلزامي من Lieutenant إلى Captain ثم Battalion Chief وصولاً لـ High Command.</p>
+
+                        <h4 class="font-bold text-slate-200">2. نظام الفرز الثلاثي (Triage System)</h4>
+                        <ul class="list-disc pr-5 flex flex-col gap-2 text-slate-400 font-semibold">
+                            <li><strong class="text-red-500">Priority 1 (Red):</strong> إصابة حرجة وخطرة جداً على الحياة (طلقات، حروق بليغة). نقل فوري كود 3.</li>
+                            <li><strong class="text-yellow-500">Priority 2 (Yellow):</strong> إصابات بليغة لكنها مستقرة (كسور، إغماء). نقل متزن كود 2.</li>
+                            <li><strong class="text-emerald-500">Priority 3 (Green):</strong> إصابات طفيفة (كدمات، دوار). يتم العلاج في الموقع كاملاً دون النقل للمستشفى.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Panel 3: LSPD Joint Protocol -->
+                    <div id="doc-panel-lobby" class="doc-panel-content hidden flex flex-col gap-4 text-sm text-slate-300 mt-2">
+                        <h4 class="font-bold text-slate-200">1. بروتوكول تأمين الموقع والمناطق الثلاثة</h4>
+                        <p class="leading-relaxed">يتم تقسيم أي موقع حدث مشترك مع الشرطة (LSPD) إلى ثلاثة نطاقات أمنية لحماية الأفراد والمسعفين:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs mt-2">
+                            <div class="bg-red-950/20 border border-red-900/40 p-3 rounded-lg">
+                                <span class="font-bold text-red-400">المنطقة الحمراء (Hot Zone):</span>
+                                <p class="text-slate-400 mt-1">خطر نشط وإطلاق نار. يمنع دخول المسعفين العاديين إلا بمدرعات الشرطة.</p>
+                            </div>
+                            <div class="bg-yellow-950/20 border border-yellow-900/40 p-3 rounded-lg">
+                                <span class="font-bold text-yellow-400">المنطقة الصفراء (Warm Zone):</span>
+                                <p class="text-slate-400 mt-1">نقطة الانتظار (Staging Area). تتمركز فيها الرتب القيادية لفرز الحالات.</p>
+                            </div>
+                            <div class="bg-emerald-950/20 border border-emerald-900/40 p-3 rounded-lg">
+                                <span class="font-bold text-emerald-400">المنطقة الخضراء (Cold Zone):</span>
+                                <p class="text-slate-400 mt-1">منطقة آمنة بالكامل. تتمركز فيها عربات الإسعاف لنقل المصابين للمستشفى.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: ACADEMY & INTERACTIVE TRAINER EVALUATION -->
+            <div id="tab-academy" class="tab-content hidden flex flex-col gap-6">
+                <!-- Training Curriculum Summary accordion -->
+                <div class="bg-[#0b1329] border border-slate-800 rounded-2xl p-6 flex flex-col gap-4 shadow-xl">
+                    <h3 class="font-extrabold text-lg text-slate-100 border-b border-slate-800 pb-3">أكاديمية تدريب LSFD ومناهجها</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-300">
+                        <div class="bg-slate-950/40 p-4 rounded-xl border border-slate-800">
+                            <h4 class="font-bold text-orange-500 mb-1.5"><i class="fa-solid fa-graduation-cap ml-1"></i> المنهج الأول: سلسلة القيادة والمسار القيادي</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed font-semibold">يشرح كيفية التدرج في الرتب العسكرية وفق ميكانيكيات العمل، صلاحيات الرتب الميدانية واللوجستية، وطريقة إدارة المشاهد الكبرى بكفاءة.</p>
+                        </div>
+                        <div class="bg-slate-950/40 p-4 rounded-xl border border-slate-800">
+                            <h4 class="font-bold text-orange-500 mb-1.5"><i class="fa-solid fa-fire-extinguisher ml-1"></i> المنهج الثاني: التدريب النوعي والتأهيل الميداني</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed font-semibold">تدريب المسعف ليكون رجل إطفاء ومسعف تكتيكي بالوقت ذاته، وإجراء التدريب القائم على المحاكاة التكتيكية والابتعاد عن التلقين النظري.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Trainer Assessment tool -->
+                <div class="bg-[#0b1329] border border-slate-800 rounded-2xl p-6 flex flex-col gap-6 shadow-xl relative">
+                    <div>
+                        <h3 class="font-extrabold text-lg text-slate-100">نموذج التقييم الميداني للمتدرب (المدربين فقط)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5 font-bold uppercase tracking-wider">خاص بمشرفي الأكاديمية لرصد الدرجات والترقي</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Inputs Column -->
+                        <div class="flex flex-col gap-4 bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-slate-400">اسم المتدرب</label>
+                                <input id="eval-name" type="text" placeholder="مثال: خالد المطيري" class="bg-[#020617] border border-slate-800 text-slate-200 text-xs px-3 py-2.5 rounded-lg outline-none focus:border-orange-500 font-semibold">
+                            </div>
+
+                            <div class="flex flex-col gap-2 mt-2">
+                                <label class="text-xs font-bold text-slate-300">بنود التقييم الميداني المباشر:</label>
+                                
+                                <div class="flex items-center justify-between text-xs py-1">
+                                    <span class="text-slate-400">أمن وسلامة الموقع (Scene Safety)</span>
+                                    <select id="eval-score-1" class="bg-[#020617] border border-slate-800 text-slate-200 rounded px-2 py-1 outline-none">
+                                        <option value="3">ممتاز (3)</option>
+                                        <option value="2">مقبول (2)</option>
+                                        <option value="0">ضعيف (0)</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between text-xs py-1">
+                                    <span class="text-slate-400">ميكانيكية وسرعة العلاج (EMS Action)</span>
+                                    <select id="eval-score-2" class="bg-[#020617] border border-slate-800 text-slate-200 rounded px-2 py-1 outline-none">
+                                        <option value="3">ممتاز (3)</option>
+                                        <option value="2">مقبول (2)</option>
+                                        <option value="0">ضعيف (0)</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between text-xs py-1">
+                                    <span class="text-slate-400">الانضباط والتحدث اللاسلكي (Radio)</span>
+                                    <select id="eval-score-3" class="bg-[#020617] border border-slate-800 text-slate-200 rounded px-2 py-1 outline-none">
+                                        <option value="3">ممتاز (3)</option>
+                                        <option value="2">مقبول (2)</option>
+                                        <option value="0">ضعيف (0)</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between text-xs py-1">
+                                    <span class="text-slate-400">تطبيق كود النقل السريع (Drop-and-Go)</span>
+                                    <select id="eval-score-4" class="bg-[#020617] border border-slate-800 text-slate-200 rounded px-2 py-1 outline-none">
+                                        <option value="3">ممتاز (3)</option>
+                                        <option value="2">مقبول (2)</option>
+                                        <option value="0">ضعيف (0)</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between text-xs py-1">
+                                    <span class="text-slate-400">المرونة والاستجابة لبند الإسناد</span>
+                                    <select id="eval-score-5" class="bg-[#020617] border border-slate-800 text-slate-200 rounded px-2 py-1 outline-none">
+                                        <option value="3">ممتاز (3)</option>
+                                        <option value="2">مقبول (2)</option>
+                                        <option value="0">ضعيف (0)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button onclick="calculateEvaluation()" class="bg-orange-600 hover:bg-orange-700 text-white font-black text-xs py-2.5 rounded-lg transition mt-4 shadow-lg shadow-orange-950/20">إصدار نتيجة التقييم</button>
+                        </div>
+
+                        <!-- Results/Output Report Column -->
+                        <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800/80 flex flex-col gap-4 relative">
+                            <h4 class="font-bold text-sm text-slate-300 border-b border-slate-800 pb-2">تقرير النتيجة الرقمية للمدرب</h4>
+                            
+                            <div id="eval-result-card" class="hidden flex flex-col gap-4">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">اسم المتدرب:</span>
+                                    <span id="res-eval-name" class="font-bold text-slate-200">--</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">المجموع النهائي:</span>
+                                    <span id="res-eval-total" class="font-mono font-bold text-orange-500 text-sm">0 / 15 نقطة</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">حالة التخرج:</span>
+                                    <span id="res-eval-status" class="px-3 py-1 text-[10px] font-bold rounded-full">--</span>
+                                </div>
+                                <p id="res-eval-tip" class="text-[10px] text-slate-400 leading-relaxed font-semibold bg-slate-900/40 p-2.5 rounded border border-slate-800"></p>
+                            </div>
+
+                            <!-- Placeholder before calculations -->
+                            <div id="eval-placeholder" class="flex flex-col items-center justify-center h-full text-slate-500 py-12">
+                                <i class="fa-solid fa-calculator text-3xl mb-3"></i>
+                                <span class="text-xs font-bold">بانتظار إدخال الدرجات والضغط على زر الاحتساب...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: THE TECHNICAL 10-CODES INTERACTIVE CATALOG -->
+            <div id="tab-radio-codes" class="tab-content hidden flex flex-col gap-6">
+                <!-- Header and Search -->
+                <div class="bg-[#0b1329] border border-slate-800 p-6 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-xl">
+                    <div>
+                        <h2 class="font-extrabold text-xl text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-microphone-lines text-orange-500"></i>
+                            كتالوج رموز التخاطب اللاسلكي التفصيلي
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">ابحث وصفي الأكواد والرموز الرقمية لتسهيل المحادثات في الراديو.</p>
+                    </div>
+                </div>
+
+                <!-- Live filter links -->
+                <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+                    <button onclick="filterCodes('all')" id="code-btn-all" class="code-filter-btn px-4 py-1.5 rounded-lg bg-orange-600 text-white font-bold text-xs transition">الكل</button>
+                    <button onclick="filterCodes('status')" id="code-btn-status" class="code-filter-btn px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">رموز الحالة</button>
+                    <button onclick="filterCodes('incidents')" id="code-btn-incidents" class="code-filter-btn px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">البلاغات الطبية والحرائق</button>
+                    <button onclick="filterCodes('emergencies')" id="code-btn-emergencies" class="code-filter-btn px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition">أكواد الحماية والاستجابة</button>
+                </div>
+
+                <!-- Codes results list grid -->
+                <div id="codes-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Cards populated by JS dynamically -->
+                </div>
+            </div>
+
+            <!-- TAB 5: PENALTIES, SYSTEM & PROMOTIONS POINT CALCULATOR -->
+            <div id="tab-penalties" class="tab-content hidden flex flex-col gap-6">
+                <!-- Disciplinary Database Grid -->
+                <div class="bg-[#0b1329] border border-slate-800 p-6 rounded-2xl flex flex-col gap-4 shadow-xl">
+                    <div class="border-b border-slate-800 pb-3 flex justify-between items-center">
+                        <div>
+                            <h3 class="font-extrabold text-lg text-slate-100">مصفوفة المخالفات والجزاءات العسكرية (Disciplinary Matrix)</h3>
+                            <p class="text-xs text-slate-400 mt-0.5">ضوابط ضبط السلوك الميداني ومنع الفوضى.</p>
+                        </div>
+                    </div>
+
+                    <!-- Filterable violation lists in accordions -->
+                    <div class="flex flex-col gap-3">
+                        <!-- Accordion 1: Minor -->
+                        <div class="bg-slate-950/40 border border-slate-800 rounded-xl overflow-hidden">
+                            <button onclick="toggleAccordion('acc-minor')" class="w-full px-4 py-3.5 text-right font-bold text-slate-200 flex justify-between items-center hover:bg-slate-900/50">
+                                <span>1. مخالفات الدرجة الأولى (مخالفات خفيفة - Minor)</span>
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="acc-minor" class="hidden p-4 border-t border-slate-800/60 flex flex-col gap-2 text-xs text-slate-400 leading-relaxed font-semibold">
+                                <p>• <strong>عدم الالتزام بالهندام المعتمد:</strong> التنبيه الشفهي للمرة الأولى، ثم لفت النظر لملف العضو.</p>
+                                <p>• <strong>الحديث الجانبي بالراديو:</strong> تنبيه شفهي مبدئي، التكرار يستوجب حظر الراديو 30 دقيقة.</p>
+                                <p>• <strong>التأخر عن استلام النوبة:</strong> تسجيل غياب شفهي بملف الشفت بخصم نقطة واحدة.</p>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 2: Moderate -->
+                        <div class="bg-slate-950/40 border border-slate-800 rounded-xl overflow-hidden">
+                            <button onclick="toggleAccordion('acc-moderate')" class="w-full px-4 py-3.5 text-right font-bold text-slate-200 flex justify-between items-center hover:bg-slate-900/50">
+                                <span>2. مخالفات الدرجة الثانية (مخالفات متوسطة - Moderate)</span>
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="acc-moderate" class="hidden p-4 border-t border-slate-800/60 flex flex-col gap-2 text-xs text-slate-400 leading-relaxed font-semibold">
+                                <p>• <strong>تسيير الإسعاف بوقود أقل من %80:</strong> إنذار كتابي أول بملف الموظف وحرمانه من القيادة مؤقتاً.</p>
+                                <p>• <strong>التكدس داخل الطوارئ ومخالفة Drop-and-Go:</strong> خصم نقطتين ترقية فورية، التكرار يحوله لمتدرب 48 ساعة.</p>
+                                <p>• <strong>عدم تحديث حالة الـ MDT (نسيان الحالة اللاسلكية):</strong> خصم 3 نقاط من ملف الترقية.</p>
+                            </div>
+                        </div>
+
+                        <!-- Accordion 3: Major -->
+                        <div class="bg-slate-950/40 border border-slate-800 rounded-xl overflow-hidden">
+                            <button onclick="toggleAccordion('acc-major')" class="w-full px-4 py-3.5 text-right font-bold text-slate-200 flex justify-between items-center hover:bg-slate-900/50">
+                                <span class="text-red-400">3. مخالفات الدرجة الثالثة (مخالفات جسيمة - Major)</span>
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="acc-major" class="hidden p-4 border-t border-slate-800/60 flex flex-col gap-2 text-xs text-slate-400 leading-relaxed font-semibold">
+                                <p>• <strong>دخول المناطق الحمراء (Hot Zones) قبل تأمين الشرطة:</strong> تجميد الرتبة فوراً والمنع من النزول للميدان 3 أيام.</p>
+                                <p>• <strong>التمرد ورفض الأوامر الميدانية الصادرة من الرتب القيادية:</strong> خصم 10 نقاط ترقية، التكرار يستوجب الفصل النهائي الإداري.</p>
+                                <p>• <strong>استخدام ميكانيكية الإنعاش لأسباب شخصية خارج السيناريو:</strong> إيقاف العضو وتحويله للتحقيق العسكري تمهيداً للفصل.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Points and Promotion calculator -->
+                <div class="bg-[#0b1329] border border-slate-800 rounded-2xl p-6 flex flex-col gap-6 shadow-xl relative">
+                    <div>
+                        <h3 class="font-extrabold text-lg text-slate-100">نظام تحصيل نقاط الترقية الرقمي (Promotion Calculator)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5 font-bold uppercase tracking-wider">احسب نقاطك ومؤهلاتك للترقية للرتبة الأعلى تلقائياً</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Points inputs form -->
+                        <div class="flex flex-col gap-4 bg-slate-950/40 p-5 rounded-xl border border-slate-800/80">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-slate-400">عدد البلاغات الميدانية المنتهية كود 4 (+1 نقطة لكل بلاغ)</label>
+                                <input id="calc-calls" type="number" value="0" min="0" class="bg-[#020617] border border-slate-800 text-slate-200 text-xs px-3 py-2 rounded-lg outline-none focus:border-orange-500 font-mono">
+                            </div>
+                            
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-slate-400">المشاركة في إسعاف حوادث كوارث 10-90 (+3 نقاط لكل مشاركة)</label>
+                                <input id="calc-disasters" type="number" value="0" min="0" class="bg-[#020617] border border-slate-800 text-slate-200 text-xs px-3 py-2 rounded-lg outline-none focus:border-orange-500 font-mono">
+                            </div>
+
+                            <div class="flex flex-col gap-1.5">
+                                <label class="text-xs font-bold text-slate-400">شفتات تفعيل بند الإسناد داخل المستشفى الرئيسي (+2 نقطة لكل شفت 30 د)</label>
+                                <input id="calc-shifts" type="number" value="0" min="0" class="bg-[#020617] border border-slate-800 text-slate-200 text-xs px-3 py-2 rounded-lg outline-none focus:border-orange-500 font-mono">
+                            </div>
+
+                            <button onclick="calculatePromotion()" class="bg-orange-600 hover:bg-orange-700 text-white font-black text-xs py-2.5 rounded-lg transition mt-2 shadow-lg shadow-orange-950/20">احسب مجموع النقاط والترشيح</button>
+                        </div>
+
+                        <!-- Results display panel -->
+                        <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800/80 flex flex-col gap-4 relative justify-center">
+                            <h4 class="font-bold text-sm text-slate-300 border-b border-slate-800 pb-2">تفاصيل الجدارة والاستحقاق</h4>
+                            
+                            <div id="promo-result-card" class="hidden flex flex-col gap-4">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">إجمالي النقاط المحسوبة:</span>
+                                    <span id="res-promo-points" class="font-mono font-bold text-orange-500 text-sm">0 نقطة</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">الرتبة المستحقة المرشح لها:</span>
+                                    <span id="res-promo-rank" class="font-bold text-emerald-400 text-sm">--</span>
+                                </div>
+                                <p id="res-promo-advice" class="text-[10px] text-slate-400 leading-relaxed font-semibold bg-slate-900/40 p-2.5 rounded border border-slate-800"></p>
+                            </div>
+
+                            <!-- Placeholder -->
+                            <div id="promo-placeholder" class="flex flex-col items-center justify-center text-slate-500 py-12">
+                                <i class="fa-solid fa-coins text-3xl mb-3"></i>
+                                <span class="text-xs font-bold">بانتظار إدخال النقاط والضغط على زر الاحتساب...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: MEDICAL WORKSHOPS & RP RECIPES -->
+            <div id="tab-workshops" class="tab-content hidden flex flex-col gap-6">
+                <!-- Medical Workshop and RP Guide -->
+                <div class="bg-[#0b1329] border border-slate-800 p-6 rounded-2xl flex flex-col gap-4 shadow-xl">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h3 class="font-extrabold text-lg text-slate-100">المقر الفني لإنعاش ورش العمل (RP Recipes)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5 font-bold">وصفات طبية مبسطة وسريعة لميكانيكيات وسيناريوهات اللعب الأكثر شيوعاً.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                        <!-- Recipe 1: GSW -->
+                        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
+                            <span class="px-2.5 py-1 bg-red-600/10 border border-red-500/20 text-red-400 text-[10px] rounded font-bold w-max">إصابة طلق ناري (GSW)</span>
+                            <h4 class="font-bold text-xs text-slate-200">الخطوات الميدانية السريعة:</h4>
+                            <div class="text-[11px] text-slate-400 flex flex-col gap-1.5 font-semibold">
+                                <p>1. ركن المركبة بزاوية آمنة لحمايتك.</p>
+                                <p>2. كتابة: <code class="text-orange-400">/me يفحص عمق ومكان الطلقة بنظرة سريعة</code>.</p>
+                                <p>3. استخدام الشاش لربط النزيف ميكانيكياً.</p>
+                                <p>4. نقل المريض للسيارة وتفعيل كود "Drop-and-Go".</p>
+                            </div>
+                        </div>
+
+                        <!-- Recipe 2: Crash -->
+                        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
+                            <span class="px-2.5 py-1 bg-yellow-600/10 border border-yellow-500/20 text-yellow-400 text-[10px] rounded font-bold w-max">حوادث السير والكسور</span>
+                            <h4 class="font-bold text-xs text-slate-200">الخطوات الميدانية السريعة:</h4>
+                            <div class="text-[11px] text-slate-400 flex flex-col gap-1.5 font-semibold">
+                                <p>1. إطفاء حريق محرك السيارة قبل الاقتراب.</p>
+                                <p>2. كتابة: <code class="text-orange-400">/me يضع طوق تثبيت العنق الطبي بحذر</code>.</p>
+                                <p>3. علاج الكسور والالتواء بالجبائر الميكانيكية.</p>
+                                <p>4. حمل المصاب بالنقالة بهدوء لمنع تضاعف الألم.</p>
+                            </div>
+                        </div>
+
+                        <!-- Recipe 3: Burns -->
+                        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
+                            <span class="px-2.5 py-1 bg-blue-600/10 border border-blue-500/20 text-blue-400 text-[10px] rounded font-bold w-max">إصابات الحروق والحرائق</span>
+                            <h4 class="font-bold text-xs text-slate-200">الخطوات الميدانية السريعة:</h4>
+                            <div class="text-[11px] text-slate-400 flex flex-col gap-1.5 font-semibold">
+                                <p>1. سحب المصاب فوراً بعيداً عن مصدر اللهب.</p>
+                                <p>2. كتابة: <code class="text-orange-400">/me يضع مرهم مهدئ الحروق مع الضماد المعقم</code>.</p>
+                                <p>3. تزويد المصاب بقناع الأكسجين ميكانيكياً.</p>
+                                <p>4. النقل الهادئ كود 2 لغرض الملاحظة المستمرة.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#0b1329] border-t border-slate-800 py-6 text-center text-xs text-slate-500 font-bold shadow-2xl mt-12">
+        <p>© 2026 البوابة الرقمية لـ لوس سانتوس ديبرتمنت | LSFD. جميع الحقوق محفوظة لعمليات الانتقال الاستراتيجي.</p>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT ENGINE -->
+    <script>
+        // Global variables state for the interactive components
+        const state = {
+            hospital: {
+                red: 3,
+                yellow: 2,
+                blue: 5
+            },
+            radioCodes: [
+                { code: "10-4", desc: "تم الاستلام ومفهوم تماماً (علم).", type: "status", category: "رموز الحالة العامة" },
+                { code: "10-8", desc: "متوفر ومتاح لاستقبال أي بلاغ جديد بالشارع.", type: "status", category: "رموز الحالة العامة" },
+                { code: "10-7", desc: "خارج الخدمة (نهاية الشفت أو الاستراحة).", type: "status", category: "رموز الحالة العامة" },
+                { code: "10-19", desc: "العودة المباشرة للمحطة (Station).", type: "status", category: "رموز الحالة العامة" },
+                { code: "10-20", desc: "الموقع الحالي بدقة.", type: "status", category: "رموز الحالة العامة" },
+                { code: "10-23", desc: "الوصول الفعلي لموقع البلاغ (On Scene).", type: "status", category: "رموز الحالة العامة" },
+                
+                { code: "10-45", desc: "حالة وفاة مؤكدة في الموقع (Fatality).", type: "incidents", category: "البلاغات الطبية والحرائق" },
+                { code: "10-50", desc: "حادث سير مروري بالمركبات (Crash).", type: "incidents", category: "البلاغات الطبية والحرائق" },
+                { code: "10-52", desc: "طلب إرسال سيارة إسعاف إضافية فوراً.", type: "incidents", category: "البلاغات الطبية والحرائق" },
+                { code: "10-70", desc: "حريق نشط في مربع سكني أو مركبة.", type: "incidents", category: "البلاغات الطبية والحرائق" },
+                { code: "10-90", desc: "حادث كتلوي طارئ ضخم جداً (MCI).", type: "incidents", category: "البلاغات الطبية والحرائق" },
+                
+                { code: "Code 0", desc: "نداء استغاثة قصوى (حياة مسعف في خطر).", type: "emergencies", category: "أكواد الحماية والاستجابة" },
+                { code: "Code 3", desc: "استجابة طارئة قصوى بأقصى سرعة بالسرينة والفلاشات.", type: "emergencies", category: "أكواد الحماية والاستجابة" },
+                { code: "Code 2", desc: "استجابة متوسطة متزنة بالفلاشات فقط.", type: "emergencies", category: "أكواد الحماية والاستجابة" },
+                { code: "Code 4", desc: "إنهاء البلاغ بالكامل والموقع آمن ومستقر.", type: "emergencies", category: "أكواد الحماية والاستجابة" }
+            ],
+            task3Active: false
+        };
+
+        // Window load initialization
+        window.onload = function() {
+            startClock();
+            renderRadioCodes('all');
+            updateHospitalBanners();
+        };
+
+        // Live ticking clock (Tactical UI)
+        function startClock() {
+            setInterval(() => {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+                document.getElementById('live-timer').innerText = timeStr;
+            }, 1000);
+        }
+
+        // Tab switches logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white";
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "tab-btn w-full text-right px-4 py-3 rounded-xl flex items-center justify-between transition-all bg-slate-800/80 text-orange-500 font-bold border-r-4 border-orange-500 shadow-md";
+            }
+        }
+
+        // Accordion switch within SOP tab
+        function switchDocPanel(panelId) {
+            document.querySelectorAll('.doc-panel-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.doc-panel-btn').forEach(btn => {
+                btn.className = "doc-panel-btn px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg transition";
+            });
+
+            document.getElementById(`doc-panel-${panelId}`).classList.remove('hidden');
+            document.getElementById(`btn-doc-${panelId}`).className = "doc-panel-btn px-4 py-2 bg-orange-600 text-white font-bold text-xs rounded-lg transition shadow-md";
+        }
+
+        // Bed occupancy changer
+        function changeBedCount(wing, val) {
+            const maxLimits = { red: 5, yellow: 10, blue: 15 };
+            const current = state.hospital[wing];
+            const updated = current + val;
+
+            if (updated >= 0 && updated <= maxLimits[wing]) {
+                state.hospital[wing] = updated;
+                updateHospitalBanners();
+            }
+        }
+
+        // Refresh UI components for occupancy
+        function updateHospitalBanners() {
+            document.getElementById('bed-val-red').innerText = `${state.hospital.red} / 5 أسرة`;
+            document.getElementById('bed-val-yellow').innerText = `${state.hospital.yellow} / 10 أسرة`;
+            document.getElementById('bed-val-blue').innerText = `${state.hospital.blue} / 15 أسرة`;
+            document.getElementById('dash-bed-count').innerText = state.hospital.red;
+
+            const totalCapacity = 5 + 10 + 15;
+            const currentCapacity = state.hospital.red + state.hospital.yellow + state.hospital.blue;
+            const finalPercent = Math.round((currentCapacity / totalCapacity) * 100);
+
+            const totalBadge = document.getElementById('hospital-total-capacity-badge');
+            totalBadge.innerText = `${finalPercent}%`;
+
+            // Change badge warning coloring automatically
+            if (finalPercent >= 80) {
+                totalBadge.className = "text-red-500 font-black animate-pulse";
+            } else if (finalPercent >= 50) {
+                totalBadge.className = "text-yellow-400 font-black";
+            } else {
+                totalBadge.className = "text-emerald-400 font-black";
+            }
+        }
+
+        // Toggle interactive task checkmark
+        function toggleTask3() {
+            const chk = document.getElementById('task-3');
+            const title = document.getElementById('task-3-title');
+            if (chk.checked) {
+                title.className = "text-sm font-bold text-slate-200 line-through";
+            } else {
+                title.className = "text-sm font-bold text-slate-200";
+            }
+        }
+
+        // Render radio codes filter database
+        function renderRadioCodes(type) {
+            const container = document.getElementById('codes-grid-container');
+            let filtered = state.radioCodes;
+            if (type !== 'all') {
+                filtered = state.radioCodes.filter(c => c.type === type);
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                    <div class="flex flex-col gap-1.5">
+                        <span class="font-bold text-slate-200 text-sm">${item.desc}</span>
+                        <span class="text-[10px] text-slate-500 font-bold">التصنيف: ${item.category}</span>
+                    </div>
+                    <span class="px-3 py-1 bg-orange-600/10 border border-orange-500/20 text-orange-400 font-mono font-bold text-sm rounded-lg">${item.code}</span>
+                </div>
+            `).join('');
+        }
+
+        // Filter button highlighting for 10-Codes
+        function filterCodes(type) {
+            document.querySelectorAll('.code-filter-btn').forEach(btn => {
+                btn.className = "code-filter-btn px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition";
+            });
+            document.getElementById(`code-btn-${type}`).className = "code-filter-btn px-4 py-1.5 rounded-lg bg-orange-600 text-white font-bold text-xs transition";
+            renderRadioCodes(type);
+        }
+
+        // Toggle violation accordion lists
+        function toggleAccordion(accId) {
+            const el = document.getElementById(accId);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        // Academy Trainer Assessment scoring logic
+        function calculateEvaluation() {
+            const name = document.getElementById('eval-name').value;
+            if (!name.trim()) {
+                alert("خطأ: يرجى كتابة اسم المتدرب أولاً.");
+                return;
+            }
+
+            const s1 = parseInt(document.getElementById('eval-score-1').value);
+            const s2 = parseInt(document.getElementById('eval-score-2').value);
+            const s3 = parseInt(document.getElementById('eval-score-3').value);
+            const s4 = parseInt(document.getElementById('eval-score-4').value);
+            const s5 = parseInt(document.getElementById('eval-score-5').value);
+
+            const total = s1 + s2 + s3 + s4 + s5;
+
+            document.getElementById('eval-placeholder').classList.add('hidden');
+            const resultCard = document.getElementById('eval-result-card');
+            resultCard.classList.remove('hidden');
+
+            document.getElementById('res-eval-name').innerText = name;
+            document.getElementById('res-eval-total').innerText = `${total} / 15 نقطة`;
+
+            const statusBadge = document.getElementById('res-eval-status');
+            const tip = document.getElementById('res-eval-tip');
+
+            if (total >= 12) {
+                statusBadge.innerText = "ناجح ومؤهل للتخرج";
+                statusBadge.className = "px-3 py-1 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/20";
+                tip.innerText = "التوصية: يتم ترقيته فوراً لمرتبة Paramedic وتعديل مسمّاه في الـ MDT.";
+            } else if (total >= 8) {
+                statusBadge.innerText = "إعادة تأهيل";
+                statusBadge.className = "px-3 py-1 text-[10px] font-bold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/20";
+                tip.innerText = "التوصية: يُعطى مهلة 24 ساعة للتدرب على نقاط الضعف التي حصل فيها على درجات مقبول أو ضعيف قبل إعادة الاختبار.";
+            } else {
+                statusBadge.innerText = "راسب ومستبعد";
+                statusBadge.className = "px-3 py-1 text-[10px] font-bold rounded-full bg-red-500/20 text-red-400 border border-red-500/20";
+                tip.innerText = "التوصية: يتم تجميد رتبته وتوجيهه للالتحاق بالدورة التأهيلية القادمة في الأكاديمية لتحسين مستواه التشغيلي.";
+            }
+        }
+
+        // Promotions and Points calculator logic
+        function calculatePromotion() {
+            const calls = parseInt(document.getElementById('calc-calls').value) || 0;
+            const disasters = parseInt(document.getElementById('calc-disasters').value) || 0;
+            const shifts = parseInt(document.getElementById('calc-shifts').value) || 0;
+
+            const totalPoints = (calls * 1) + (disasters * 3) + (shifts * 2);
+
+            document.getElementById('promo-placeholder').classList.add('hidden');
+            const resultCard = document.getElementById('promo-result-card');
+            resultCard.classList.remove('hidden');
+
+            document.getElementById('res-promo-points').innerText = `${totalPoints} نقطة`;
+
+            const rankBadge = document.getElementById('res-promo-rank');
+            const advice = document.getElementById('res-promo-advice');
+
+            if (totalPoints >= 50) {
+                rankBadge.innerText = "الترشيح لـ EMS Lieutenant (ملازم)";
+                rankBadge.className = "font-bold text-orange-400 text-sm";
+                advice.innerText = "مؤهل بالكامل: يمتلك النقاط الكافية للترشح لرتبة ملازم وقيادة نوبة كاملة ميدانياً والتنسيق المباشر.";
+            } else if (totalPoints >= 30) {
+                rankBadge.innerText = "Senior Paramedic (مسعف أول)";
+                rankBadge.className = "font-bold text-yellow-400 text-sm";
+                advice.innerText = "مؤهل بالكامل: يمتلك النقاط والخبرة الكافية للترقية لمرتبة مسعف أول وتدريب المستجدين بالأكاديمية.";
+            } else if (totalPoints >= 15) {
+                rankBadge.innerText = "Paramedic (مسعف رسمي)";
+                rankBadge.className = "font-bold text-emerald-400 text-sm";
+                advice.innerText = "مؤهل بالكامل: تم اجتياز متطلبات رتبة مستجد ويحق له الآن تشغيل مركبة الإسعاف منفصلاً وتأمين شوارع المدينة.";
+            } else {
+                rankBadge.innerText = "EMS Recruit (مستجد)";
+                rankBadge.className = "font-bold text-slate-400 text-sm";
+                advice.innerText = "تحت التأهيل: بانتظار استكمال جمع المزيد من النقاط التشغيلية (المطلوب 15 نقطة كحد أدنى للتخرج).";
+            }
+        }
+    </script>
+</body>
+</html>
