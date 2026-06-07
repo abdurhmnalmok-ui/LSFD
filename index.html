@@ -42,7 +42,7 @@
         const user = document.getElementById('username').value;
         const pass = document.getElementById('password').value;
 
-        // يمكنك تغيير الحسابات الوهمية من هنا للتجربة
+        // الحسابات المعتمدة للدخول
         if (user === "admin" && pass === "admin123") {
             localStorage.setItem('role', 'admin');
             window.location.href = 'lsfd.html'; // التوجه لصفحتك الرسمية مباشرة
@@ -50,34 +50,9 @@
             localStorage.setItem('role', 'user');
             window.location.href = 'lsfd.html'; // التوجه لصفحتك الرسمية مباشرة
         } else {
-} else {
             document.getElementById('errorMsg').style.display = 'block';
         }
     });
-
-    // --- كود جدار الحماية وفحص الصلاحيات للموقع الجديد ---
-    document.addEventListener("DOMContentLoaded", function() {
-        const currentRole = localStorage.getItem('role');
-
-        // 1. إذا لم يسجل دخول، يتم منعه من تصفح المحتوى المتقدم
-        if (!currentRole) {
-            console.log("الرجاء تسجيل الدخول أولاً.");
-            return;
-        }
-
-        // 2. تطبيق نظام الصلاحيات (البرمشنات) بناءً على رتبة الحساب
-        if (currentRole === 'admin') {
-            console.log("مرحباً بالقائد، تم تفعيل كامل الصلاحيات الإدارية.");
-        } else {
-            console.log("تم تسجيل الدخول بصلاحيات مستخدم عادي.");
-        }
-    });
-
-    // دالة مخصصة إذا أردت وضع زر لتسجيل الخروج في موقعك
-    function logout() {
-        localStorage.removeItem('role');
-        window.location.href = 'index.html';
-    }
 </script>
 </body>
 </html>
