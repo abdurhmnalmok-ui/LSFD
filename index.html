@@ -42,13 +42,10 @@
         const user = document.getElementById('username').value;
         const pass = document.getElementById('password').value;
 
-       // الحسابات المعتمدة للدخول
-        if (user === "admin" && pass === "admin123") {
-            localStorage.setItem('role', 'admin');
-            window.location.href = './lsfd.html'; // تأكد من وجود نقطة وسلاش قبل اسم الملف
-        } else if (user === "user" && pass === "user123") {
-            localStorage.setItem('role', 'user');
-            window.location.href = './lsfd.html'; // تأكد من وجود نقطة وسلاش قبل اسم الملف
+        // الحسابات المعتمدة للدخول
+        if ((user === "admin" && pass === "admin123") || (user === "user" && pass === "user123")) {
+            localStorage.setItem('role', 'admin'); // منح صلاحية مؤقتة للعبور
+            window.location.href = 'lsfd.html'; 
         } else {
             document.getElementById('errorMsg').style.display = 'block';
         }
