@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | بوابة Los Santos</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #10111a; display: flex; justify-content: center; align-items: center; height: 100vh; color: #fff; }
+        .login-container { background: #161722; padding: 40px; border-radius: 10px; box-shadow: 0 15px 25px rgba(0,0,0,0.5); width: 400px; text-align: center; border-top: 4px solid #ef4444; }
+        h2 { margin-bottom: 20px; color: #ef4444; font-weight: bold; }
+        .input-group { margin-bottom: 20px; text-align: right; }
+        label { display: block; margin-bottom: 8px; color: #9ca3af; font-size: 14px; }
+        input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #374151; background: #1f2029; color: #fff; font-size: 16px; outline: none; text-align: right; }
+        input:focus { border-color: #ef4444; }
+        button { width: 100%; padding: 12px; background: #ef4444; border: none; border-radius: 6px; color: white; font-size: 16px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #dc2626; }
+        .error-msg { color: #f87171; font-size: 14px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>بوابة تسجيل الدخول</h2>
+    <form id="loginForm">
+        <div class="input-group">
+            <label>اسم المستخدم</label>
+            <input type="text" id="username" required placeholder="أدخل اسم المستخدم">
+        </div>
+        <div class="input-group">
+            <label>كلمة المرور</label>
+            <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+        </div>
+        <button type="submit">تسجيل الدخول</button>
+        <div class="error-msg" id="errorMsg">اسم المستخدم أو كلمة المرور غير صحيحة!</div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+
+        // يمكنك تغيير الحسابات الوهمية من هنا للتجربة
+        if (user === "admin" && pass === "admin123") {
+            localStorage.setItem('role', 'admin');
+            window.location.href = 'lsfd.html'; // التوجه لصفحتك الرسمية مباشرة
+        } else if (user === "user" && pass === "user123") {
+            localStorage.setItem('role', 'user');
+            window.location.href = 'lsfd.html'; // التوجه لصفحتك الرسمية مباشرة
+        } else {
+            document.getElementById('errorMsg').style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>
