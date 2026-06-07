@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>البوابة الرسمية الشاملة | Los Santos Fire Department</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { font-family: 'Cairo', sans-serif; }
@@ -19,6 +22,7 @@
 </head>
 <body class="bg-[#0f111a] text-slate-100 min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
 
+    <!-- الهيدر العلوي الرئيسي للوحة التحكم -->
     <header class="border-b border-slate-800/60 bg-[#141724]/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
         <div class="flex items-center gap-4">
             <div class="bg-red-500/10 p-2.5 border border-red-500/20 rounded-xl flex items-center justify-center">
@@ -45,11 +49,15 @@
         </div>
     </header>
 
+    <!-- المحتوى الداخلي المقسم بناءً على التصميم المعتمد -->
     <main class="flex-1 max-w-[1600px] w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
         
+        <!-- القسم الأيمن العريض (يحتوي على المؤشرات، الأجندة، والتعليمات) -->
         <section class="lg:col-span-3 space-y-6 order-2 lg:order-1">
             
+            <!-- لوحة المؤشر الرئيسي والوحدات الشاغرة حالياً -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- بطاقة الوحدات في الميدان الشغالة حالياً -->
                 <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-5 shadow-xl flex items-center justify-between">
                     <div class="space-y-1 text-right">
                         <span class="text-xs font-bold text-slate-400 block">الوحدات في الميدان</span>
@@ -62,6 +70,7 @@
                     </div>
                 </div>
 
+                <!-- بطاقة بوابة التحول الاستراتيجي -->
                 <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-5 shadow-xl md:col-span-2 flex items-center justify-between gap-4">
                     <div class="space-y-1 text-right w-full">
                         <h4 class="text-xs font-bold text-red-500 tracking-wider">بوابة التحول الاستراتيجي الموحد (2026)</h4>
@@ -75,6 +84,7 @@
                 </div>
             </div>
 
+            <!-- بطاقة معاينة القرار والاعتماد الفوري للتحول الاستراتيجي -->
             <div class="bg-gradient-to-r from-amber-600/10 via-amber-600/5 to-transparent border border-amber-600/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
                 <div class="flex items-center gap-3.5">
                     <div class="bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-xl text-amber-500 text-xl flex items-center justify-center">
@@ -90,6 +100,7 @@
                 </button>
             </div>
 
+            <!-- قسم أجندة التحول البرمجي الميداني -->
             <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-5 shadow-xl space-y-4">
                 <div class="flex justify-between items-center border-b border-slate-800/60 pb-3">
                     <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
@@ -99,6 +110,7 @@
                 </div>
                 
                 <div class="space-y-3.5 text-right">
+                    <!-- خيار 1 -->
                     <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-800/10 border border-slate-800/50">
                         <input type="checkbox" checked class="w-4 h-4 rounded text-red-500 bg-slate-900 border-slate-700 mt-0.5" disabled>
                         <div>
@@ -106,6 +118,7 @@
                             <span class="text-[11px] text-slate-400 mt-0.5 block">تحويل جميع الملفات ومسكن الكوادر على الرتب العسكرية لـ LSFD.</span>
                         </div>
                     </div>
+                    <!-- خيار 2 -->
                     <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-800/10 border border-slate-800/50">
                         <input type="checkbox" checked class="w-4 h-4 rounded text-red-500 bg-slate-900 border-slate-700 mt-0.5" disabled>
                         <div>
@@ -113,6 +126,7 @@
                             <span class="text-[11px] text-slate-400 mt-0.5 block">عدم مكوث سيارة الإسعاف بالمستشفى الرئيسي على 5 دقائق كحد أقصى.</span>
                         </div>
                     </div>
+                    <!-- خيار 3 -->
                     <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-800/10 border border-slate-800/50">
                         <input type="checkbox" class="w-4 h-4 rounded text-red-500 bg-slate-900 border-slate-700 mt-0.5" disabled>
                         <div>
@@ -123,6 +137,7 @@
                 </div>
             </div>
 
+            <!-- توجيه القيادة العليا -->
             <div class="bg-red-500/5 border border-red-500/15 rounded-2xl p-4 flex gap-3 text-right">
                 <div class="text-red-500 text-lg mt-0.5 shrink-0">
                     <i class="fa-solid fa-circle-exclamation"></i>
@@ -136,30 +151,37 @@
             </div>
         </section>
 
+        <!-- العمود الأيسر: تصفح الأقسام التفاعلية بالكامل (مطابق للفيديو 100%) -->
         <aside class="space-y-6 lg:col-span-1 order-1 lg:order-2">
             <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-4 shadow-xl">
                 <span class="text-xs font-bold text-slate-400 tracking-wider block mb-3 px-2 text-right">أقسام البوابة الرسمية</span>
                 <nav class="space-y-1">
+                    <!-- الزر 1: الرئيسية والمؤشرات -->
                     <button onclick="openModal('modal-main')" class="w-full flex items-center justify-between px-4 py-3 bg-[#1c1f2f] border-r-4 border-red-500 rounded-xl text-red-400 font-bold text-xs transition-all text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-chart-pie text-sm"></i> الرئيسية والمؤشرات</span>
                         <i class="fa-solid fa-angle-left text-[10px]"></i>
                     </button>
+                    <!-- الزر 2: الأدلة والبروتوكولات (SOP) -->
                     <button onclick="openModal('modal-sop')" class="w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-shield-halved text-sm group-hover:text-red-400 transition-colors"></i> الأدلة والبروتوكولات (SOP)</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
+                    <!-- الزر 3: الأكاديمية وبطاقة التقييم -->
                     <button onclick="openModal('modal-academy')" class="w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-graduation-cap text-sm group-hover:text-red-400 transition-colors"></i> الأكاديمية وبطاقة التقييم</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
+                    <!-- الزر 4: كتالوج الراديو (Codes-10) -->
                     <button onclick="openModal('modal-radio')" class="w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-radio text-sm group-hover:text-red-400 transition-colors"></i> كتالوج الراديو (Codes-10)</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
+                    <!-- الزر 5: الجزاءات وحساب الترقيات -->
                     <button onclick="openModal('modal-promotions')" class="w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-scale-balanced text-sm group-hover:text-red-400 transition-colors"></i> الجزاءات وحساب الترقيات</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
+                    <!-- الزر 6: ورش العمل والبروتوكولات -->
                     <button onclick="openModal('modal-workshops')" class="w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-screwdriver-wrench text-sm group-hover:text-red-400 transition-colors"></i> ورش العمل والبروتوكولات</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
@@ -167,6 +189,7 @@
                 </nav>
             </div>
 
+            <!-- حالة تشغيل المستشفيات -->
             <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-4 shadow-xl space-y-3 text-right">
                 <div class="flex items-center gap-2 text-red-400 font-bold text-xs">
                     <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
@@ -189,32 +212,151 @@
 
     </main>
 
+    <!-- النوافذ المنبثقة التفاعلية (Modals) لكل خيار لتظهر بها النصوص البرمجية الكافية -->
+    
+    <!-- 1. نافذة الرئيسية والمؤشرات -->
     <div id="modal-main" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
         <div class="modal-overlay absolute w-full h-full bg-slate-950/70 backdrop-blur-sm" onclick="closeModal('modal-main')"></div>
         <div class="bg-[#141724] border border-slate-800 w-11/12 md:max-w-md mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[80vh] p-6 text-right">
             <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-chart-pie text-red-500 ml-2"></i> الرئيسية والمؤشرات</h3>
-            <p class="text-sm text-slate-300 leading-relaxed">أنت متواجد حالياً في لوحة التحكم الرئيسية الحية. هنا يتم عرض تحديثات الوحدات ونسب تشغيل القطاع مباشرة من الميدان.</p>
+            <p class="text-sm text-slate-300 leading-relaxed">أنت متواجد حالياً في لوحة التحكم الرئيسية الحية لقطاع الإطفاء والإنقاذ (LSFD). هنا يتم تتبع الإحصائيات العامة للوحدات الميدانية المسجلة ونسب إشغال المستشفيات بشكل فوري ومستمر.</p>
             <button onclick="closeModal('modal-main')" class="mt-5 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs py-2.5 rounded-xl transition-all">إغلاق النافذة</button>
         </div>
     </div>
 
+    <!-- 2. نافذة الأدلة والبروتوكولات (SOP) -->
     <div id="modal-sop" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
         <div class="modal-overlay absolute w-full h-full bg-slate-950/70 backdrop-blur-sm" onclick="closeModal('modal-sop')"></div>
         <div class="bg-[#141724] border border-slate-800 w-11/12 md:max-w-lg mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[80vh] p-6 text-right">
-            <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-shield-halved text-red-500 ml-2"></i> الأدلة والبروتوكولات (SOP)</h3>
+            <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-shield-halved text-red-500 ml-2"></i> الأدلة والبروتوكولات الميدانية (SOP)</h3>
             <div class="space-y-3 text-sm text-slate-300">
-                <p class="font-semibold text-amber-400">بروتوكولات الاستجابة الميدانية المعتمدة:</p>
+                <p class="font-semibold text-amber-400">دليل إجراءات العمل الموحد:</p>
                 <ul class="list-disc list-inside space-y-2 text-xs text-slate-400">
-                    <li>آلية فرض السيطرة على مواقع الحوادث الكبرى والتعامل مع الحرائق الهيكلية.</li>
-                    <li>تنظيم نطاق القيادة والسيطرة عند التداخل الميداني مع الجهات الأمنية (LSPD / FBI).</li>
-                    <li>بروتوكول إسعاف مصابي الاصطدامات الشديدة وحوادث الطيران.</li>
+                    <li>الأولوية لإنقاذ الأرواح وتأمين مسرح الحادث قبل البدء في عمليات فرز الحالات (Triage).</li>
+                    <li>يجب الالتزام بمسافة الأمان اللازمة لمركبات الإسعاف والإطفاء عند التواجد في مواقع إطلاق النار.</li>
+                    <li>التنسيق الكامل والشفاف مع غرف عمليات الـ LSPD وتحديث الحالة الميدانية فوراً.</li>
                 </ul>
             </div>
             <button onclick="closeModal('modal-sop')" class="mt-5 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs py-2.5 rounded-xl transition-all">إغلاق النافذة</button>
         </div>
     </div>
 
+    <!-- 3. نافذة الأكاديمية وبطاقة التقييم -->
     <div id="modal-academy" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
         <div class="modal-overlay absolute w-full h-full bg-slate-950/70 backdrop-blur-sm" onclick="closeModal('modal-academy')"></div>
         <div class="bg-[#141724] border border-slate-800 w-11/12 md:max-w-md mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[80vh] p-6 text-right">
-            <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-
+            <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-graduation-cap text-red-500 ml-2"></i> الأكاديمية وبطاقة التقييم</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-3">سجل تقييم أداء المسعفين ورجال الإطفاء في الميدان لضمان الاحترافية العالية:</p>
+            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-1.5">
+                <p>• سرعة الاستجابة وتلبية البلاغات: <span class="text-emerald-400 font-bold">9.5 / 10</span></p>
+                <p>• احترافية التعامل مع السيناريوهات الطبية (E-PCR): <span class="text-emerald-400 font-bold">ممتاز</span></p>
+                <p>• الانضباط العسكري والالتزام بالرتب والأوامر: <span class="text-emerald-400 font-bold">100%</span></p>
+            </div>
+            <button onclick="closeModal('modal-academy')" class="mt-5 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs py-2.5 rounded-xl transition-all">إغلاق النافذة</button>
+        </div>
+    </div>
+
+    <!-- 4. نافذة كتالوج الراديو (Codes-10) -->
+    <div id="modal-radio" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-950/70 backdrop-blur-sm" onclick="closeModal('modal-radio')"></div>
+        <div class="bg-[#141724] border border-slate-800 w-11/12 md:max-w-md mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[80vh] p-6 text-right">
+            <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-radio text-red-500 ml-2"></i> كتالوج الراديو والرموز (10-Codes)</h3>
+            <p class="text-xs text-slate-400 mb-3">أبرز الأكواد المستخدمة في التخاطب اللاسلكي للـ LSFD:</p>
+            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 font-mono">
+                <div class="bg-slate-900 p-2 rounded-lg border border-slate-800"><span class="text-red-400 font-bold">10-4:</span> مفهوم / مفهوم وعلم</div>
+                <div class="bg-slate-900 p-2 rounded-lg border border-slate-800"><span class="text-red-400 font-bold">10-8:</span> وحدة متاحة في الميدان</div>
+                <div class="bg-slate-900 p-2 rounded-lg border border-slate-800"><span class="text-red-400 font-bold">10-7:</span> خارج الخدمة حالياً</div>
+                <div class="bg-slate-900 p-2 rounded-lg border border-slate-800"><span class="text-red-400 font-bold">10-20:</span> الإفادة بالموقع الحالي</div>
+                <div class="bg-slate-900 p-2 rounded-lg border border-slate-800"><span class="text-red-400 font-bold">Code 2:</span> تحرك بدون صفارات إنذار</div>
+                <div class="bg-slate-900 p-2 rounded-lg border border-slate-800"><span class="text-red-400 font-bold">Code 3:</span> تحرك طارئ قصوى بالصفارات</div>
+            </div>
+            <button onclick="closeModal('modal-radio')" class="mt-5 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs py-2.5 rounded-xl transition-all">إغلاق النافذة</button>
+        </div>
+    </div>
+
+    <!-- 5. نافذة الجزاءات وحساب الترقيات -->
+    <div id="modal-promotions" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-950/70 backdrop-blur-sm" onclick="closeModal('modal-promotions')"></div>
+        <div class="bg-[#141724] border border-slate-800 w-11/12 md:max-w-md mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[80vh] p-6 text-right">
+            <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-scale-balanced text-red-500 ml-2"></i> الجزاءات وحساب الترقيات</h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-3">لائحة المخالفات ونظام احتساب النقاط العسكرية للترقي للرتب الأعلى داخل قطاع الإنقاذ والدفاع:</p>
+            <div class="p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl font-semibold mb-2">
+                • التواجد خارج النطاق الميداني بدون إذن مسبق يعرض الفرد للحسم المباشر من نقاط الترقية.
+            </div>
+            <div class="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl font-semibold">
+                • إتمام ساعات الخدمة الميدانية الكاملة والمشاركة في الفعاليات الكبرى يمنح أولوية الترشيح للمناصب القيادية.
+            </div>
+            <button onclick="closeModal('modal-promotions')" class="mt-5 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs py-2.5 rounded-xl transition-all">إغلاق النافذة</button>
+        </div>
+    </div>
+
+    <!-- 6. نافذة ورش العمل والبروتوكولات -->
+    <div id="modal-workshops" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-950/70 backdrop-blur-sm" onclick="closeModal('modal-workshops')"></div>
+        <div class="bg-[#141724] border border-slate-800 w-11/12 md:max-w-md mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[80vh] p-6 text-right">
+            <h3 class="text-lg font-bold text-white mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-screwdriver-wrench text-red-500 ml-2"></i> ورش العمل والبروتوكولات</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-3">جدول ومواعيد الورش التطويرية الدورية والتدريبات المشتركة لرفع الكفاءة وعمل محاكاة للحوادث والأزمات الكبرى بالتنسيق مع الجهات المعنية.</p>
+            <button onclick="closeModal('modal-workshops')" class="mt-5 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs py-2.5 rounded-xl transition-all">إغلاق النافذة</button>
+        </div>
+    </div>
+
+    <!-- 7. نافذة قرار الترسيم والاعتماد العلوي -->
+    <div id="modal-decision" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-950/70 backdrop-blur-sm" onclick="closeModal('modal-decision')"></div>
+        <div class="bg-[#141724] border border-slate-800 w-11/12 md:max-w-lg mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[80vh] p-6 text-right">
+            <h3 class="text-lg font-bold text-amber-500 mb-3 border-b border-slate-800 pb-2"><i class="fa-solid fa-file-signature ml-2"></i> وثيقة قرار الترسيم والتحول الاستراتيجي</h3>
+            <div class="space-y-3 text-xs text-slate-300 leading-relaxed font-mono bg-slate-900 p-4 rounded-xl border border-slate-800">
+                <p class="text-center font-bold text-white text-sm">مذكرة اعتماد رقم: LSFD-2026-99</p>
+                <hr class="border-slate-800">
+                <p>بناءً على التوجيهات الصادرة وبموجب الصلاحيات الممنوحة، يعتمد بشكل قطعي نقل كافة الكوادر الطبية والميدانية وتسكينهم على السلك العسكري المستقل لـ LSFD التابع إدارياً لوزارة الداخلية بدلاً من وزارة الصحة.</p>
+                <p class="text-amber-400 font-bold text-left mt-4">صادر عن القيادة العليا بـ Los Santos</p>
+            </div>
+            <button onclick="closeModal('modal-decision')" class="mt-5 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs py-2.5 rounded-xl transition-all">إغلاق وتأكيد المصادقة</button>
+        </div>
+    </div>
+
+    <!-- فوتر النظام -->
+    <footer class="border-t border-slate-800/60 bg-[#0c0d14] px-6 py-4 text-center text-slate-500 text-[11px] font-medium mt-auto">
+        جميع الحقوق محفوظة لمنظومة الدفاع والإنقاذ بـ لوس سانتوس © 2026.
+    </footer>
+
+    <!-- سكريبت تشغيل النوافذ والتوقيت الحقيقي للعمليات -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function updateClock() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                const liveTimeEl = document.getElementById('liveTime');
+                if (liveTimeEl) {
+                    liveTimeEl.innerText = `${hours}:${minutes}:${seconds}`;
+                }
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+        });
+
+        // دوال التحكم بالنوافذ المنبثقة التفاعلية للخيارات الجانبية
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.classList.add('modal-active');
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                document.body.classList.remove('modal-active');
+            }
+        }
+
+        function logout() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
