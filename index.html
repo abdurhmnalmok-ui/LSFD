@@ -42,9 +42,8 @@
         const user = document.getElementById('username').value;
         const pass = document.getElementById('password').value;
 
-        // الحسابات المعتمدة للدخول
-        if ((user === "admin" && pass === "admin123") || (user === "user" && pass === "user123")) {
-            localStorage.setItem('role', 'admin'); // منح صلاحية مؤقتة للعبور
+        // بيانات الدخول التجريبية
+        if ((user === "admin" && pass === "admin123")) {
             window.location.href = 'lsfd.html'; 
         } else {
             document.getElementById('errorMsg').style.display = 'block';
