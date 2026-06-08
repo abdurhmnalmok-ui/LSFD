@@ -2,27 +2,388 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { font-family: sans-serif; background-color: #06070d; color: white; }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSFD — بوابة الدخول الآمن</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:       #05060c;
+            --surface:  #0a0b15;
+            --panel:    #0f1120;
+            --border:   rgba(255,255,255,0.06);
+            --border-bright: rgba(220,38,38,0.35);
+            --red:      #dc2626;
+            --red-dim:  rgba(220,38,38,0.12);
+            --red-glow: rgba(220,38,38,0.25);
+            --text:     #e2e8f0;
+            --muted:    #64748b;
+            --subtle:   #1e2235;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* ─── خلفية هندسية ─── */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: 0;
+            background-image:
+                linear-gradient(rgba(220,38,38,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(220,38,38,0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+        .bg-glow {
+            position: fixed; inset: 0; z-index: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 60%, rgba(220,38,38,0.07) 0%, transparent 70%);
+        }
+
+        /* ─── شريط قديم علوي ─── */
+        .top-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--red), transparent);
+        }
+
+        /* ─── الحاوية الرئيسية ─── */
+        .wrapper {
+            position: relative; z-index: 1;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 1px solid rgba(220,38,38,0.2);
+            border-radius: 2px;
+            padding: 40px 36px 36px;
+            box-shadow:
+                0 0 0 1px rgba(0,0,0,0.5),
+                0 24px 64px rgba(0,0,0,0.6),
+                0 0 80px rgba(220,38,38,0.05);
+            animation: fadeUp 0.5s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── الشعار ─── */
+        .logo-zone {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: var(--red-dim);
+            border: 1px solid var(--border-bright);
+            border-radius: 2px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .logo-icon i { color: var(--red); font-size: 18px; }
+
+        .logo-text .title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #fff;
+            line-height: 1;
+        }
+        .logo-text .sub {
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
+        .badge-hq {
+            margin-right: auto;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--red);
+            background: var(--red-dim);
+            border: 1px solid var(--border-bright);
+            padding: 3px 8px;
+            border-radius: 2px;
+        }
+
+        /* ─── العنوان ─── */
+        .page-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        /* ─── حقول الإدخال ─── */
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        .field input {
+            width: 100%;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 11px 36px 11px 14px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            direction: rtl;
+        }
+
+        .field input::placeholder { color: #334155; }
+
+        .field input:focus {
+            border-color: rgba(220,38,38,0.5);
+            box-shadow: 0 0 0 3px rgba(220,38,38,0.07);
+        }
+
+        /* ─── زر الدخول ─── */
+        .btn-login {
+            width: 100%;
+            margin-top: 8px;
+            background: var(--red);
+            border: none;
+            border-radius: 2px;
+            padding: 13px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%);
+        }
+
+        .btn-login:hover {
+            background: #b91c1c;
+            box-shadow: 0 4px 24px rgba(220,38,38,0.3);
+        }
+
+        .btn-login:active { transform: scale(0.99); }
+
+        .btn-login.loading { pointer-events: none; opacity: 0.7; }
+
+        /* ─── رسالة الخطأ ─── */
+        .error-msg {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: rgba(220,38,38,0.08);
+            border: 1px solid rgba(220,38,38,0.2);
+            border-radius: 2px;
+            padding: 10px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #f87171;
+            margin-top: 12px;
+        }
+        .error-msg.show { display: flex; animation: shake 0.3s ease; }
+
+        @keyframes shake {
+            0%,100% { transform: translateX(0); }
+            25%      { transform: translateX(-4px); }
+            75%      { transform: translateX(4px); }
+        }
+
+        /* ─── الفوتر ─── */
+        .card-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-dot {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+        .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 6px rgba(34,197,94,0.5);
+            animation: pulse-dot 2s ease infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0.4; }
+        }
+
+        .ver {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #1e293b;
+        }
+
+        /* تأثير scan line خفي */
+        .scanlines {
+            position: fixed; inset: 0; z-index: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.015) 2px,
+                rgba(0,0,0,0.015) 4px
+            );
+        }
+    </style>
 </head>
-<body class="flex items-center justify-center min-h-screen">
-    <div class="bg-[#0b0c16] p-8 rounded-2xl border border-slate-800 w-96 text-center">
-        <h2 class="text-2xl font-black mb-6 text-red-500">دخول قيادة LSFD</h2>
-        <input type="text" id="username" placeholder="اسم المستخدم" class="w-full p-3 mb-3 bg-slate-900 rounded-lg text-white text-center">
-        <input type="password" id="password" placeholder="كلمة المرور" class="w-full p-3 mb-4 bg-slate-900 rounded-lg text-white text-center">
-        <button onclick="login()" class="w-full bg-red-600 p-3 rounded-lg font-bold">تسجيل الدخول</button>
+<body>
+    <div class="top-bar"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="scanlines"></div>
+
+    <div class="wrapper">
+        <div class="card">
+
+            <div class="logo-zone">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="title">L S F D</div>
+                    <div class="sub">Los Santos Fire Department</div>
+                </div>
+                <span class="badge-hq">HQ</span>
+            </div>
+
+            <div class="page-title">بوابة الدخول الآمن</div>
+
+            <div class="field">
+                <label>المعرّف الوظيفي</label>
+                <div class="input-wrap">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="username" placeholder="أدخل المعرّف..." autocomplete="off">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>رمز التحقق</label>
+                <div class="input-wrap">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="••••••••" onkeydown="if(event.key==='Enter') login()">
+                </div>
+            </div>
+
+            <button class="btn-login" id="loginBtn" onclick="login()">
+                <span id="btnText">تسجيل الدخول إلى النظام</span>
+            </button>
+
+            <div class="error-msg" id="errorMsg">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <span>بيانات الدخول غير صحيحة. حاول مجدداً.</span>
+            </div>
+
+            <div class="card-footer">
+                <div class="status-dot">
+                    <span class="dot"></span>
+                    النظام متصل
+                </div>
+                <span class="ver">SYS v2.6.0 — 2026</span>
+            </div>
+
+        </div>
     </div>
 
     <script>
         function login() {
-            const u = document.getElementById('username').value;
+            const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value;
-            // يمكنك تغيير الاسم والباسورد من هنا
-            if(u === "admin" && p === "123") {
-                window.location.href = "lsfd.html";
-            } else {
-                alert("بيانات الدخول خاطئة!");
-            }
+            const btn = document.getElementById('loginBtn');
+            const txt = document.getElementById('btnText');
+            const err = document.getElementById('errorMsg');
+
+            err.classList.remove('show');
+            btn.classList.add('loading');
+            txt.textContent = 'جارٍ التحقق...';
+
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                txt.textContent = 'تسجيل الدخول إلى النظام';
+
+                if (u === 'admin' && p === '123') {
+                    txt.textContent = '✓ تم التحقق — جارٍ التحميل';
+                    btn.style.background = '#16a34a';
+                    setTimeout(() => { window.location.href = 'lsfd.html'; }, 600);
+                } else {
+                    err.classList.add('show');
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                }
+            }, 900);
         }
     </script>
 </body>
