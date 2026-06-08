@@ -3,439 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البوابة الرسمية الشاملة | Los Santos Fire Department</title>
-    <!-- Tailwind CSS -->
+    <title>النظام الرقمي الموحد | Los Santos Fire Department</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { font-family: 'Cairo', sans-serif; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0f111a; }
-        ::-webkit-scrollbar-thumb { background: #ef4444; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
+        body { font-family: 'Cairo', sans-serif; background-color: #06070d; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #06070d; }
+        ::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 3px; }
         .page-content { display: none; }
         .page-content.active { display: block; }
-        .radio-tab-content { display: none; }
-        .radio-tab-content.active { display: grid; }
-        /* ستايل الزر النشط المميز للجزاءات */
-        .nav-btn-sanction.active-sanction {
-            background-color: #1e2235;
-            border-right: 4px solid #f97316;
-            color: #f97316 !important;
-        }
+        .sub-tab-content { display: none; }
+        .sub-tab-content.active { display: block; }
+        .radio-card { display: none; }
+        .radio-card.active { display: flex; }
     </style>
 </head>
-<body class="bg-[#0f111a] text-slate-100 min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
+<body class="text-slate-200 min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
 
-    <!-- الهيدر العلوي الرئيسي للوحة التحكم -->
-    <header class="border-b border-slate-800/60 bg-[#141724]/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+    <header class="border-b border-slate-800/80 bg-[#0b0c16] px-6 py-4 flex flex-wrap justify-between items-center gap-4 sticky top-0 z-50">
         <div class="flex items-center gap-4">
-            <div class="bg-red-500/10 p-2.5 border border-red-500/20 rounded-xl flex items-center justify-center">
-                <i class="fa-solid fa-fire-flame-curved text-2xl text-red-500"></i>
+            <div class="bg-red-600 p-2.5 rounded-xl shadow-lg shadow-red-600/30 flex items-center justify-center">
+                <i class="fa-solid fa-fire-extinguisher text-2xl text-white animate-pulse"></i>
             </div>
             <div>
-                <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
-                    موقع لوس سانتوس للدفاع والإنقاذ <span class="text-xs bg-red-500/20 text-red-400 font-bold px-2 py-0.5 rounded border border-red-500/30">(LSFD)</span>
+                <h1 class="text-xl font-black text-white flex items-center gap-2">
+                    منظومة لوس سانتوس للإطفاء والإنقاذ <span class="text-xs bg-red-600/20 text-red-400 font-extrabold px-2 py-0.5 rounded border border-red-500/30">LSFD HQ</span>
                 </h1>
-                <p class="text-xs text-slate-400 mt-0.5 font-medium">البوابة الرقمية الرسمية والكاملة للمنظومة</p>
+                <p class="text-xs text-slate-400 mt-0.5 font-medium">نظام الإدارة المركزية والتقييم والعمليات الميدانية</p>
             </div>
         </div>
-        <div class="flex items-center gap-3">
-            <div class="bg-slate-800/40 border border-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                مرحلة الامتثال: نشطة 100%
+        <div class="flex items-center gap-4">
+            <div class="bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                حالة النظام: متصل بالعمليات
             </div>
-            <div class="bg-slate-800/40 border border-slate-700/50 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300">
-                توقيت البيانات: <span id="liveTime">00:00:00</span>
+            <div class="bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300">
+                ساعة النوبة: <span id="liveClock" class="text-red-500 font-mono">03:28:12</span>
             </div>
-            <button onclick="logout()" class="bg-red-500/10 hover:bg-red-500 hover:text-white text-red-400 border border-red-500/20 hover:border-transparent px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-1.5">
-                <i class="fa-solid fa-right-from-bracket"></i> خروج
-            </button>
         </div>
     </header>
 
-    <!-- المحتوى الداخلي المقسم بناءً على التصميم المعتمد -->
-    <main class="flex-1 max-w-[1600px] w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <main class="flex-1 w-full max-w-[1650px] mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
         
-        <!-- القسم الأيمن العريض (يحتوي على الصفحات التفاعلية الكاملة) -->
         <section class="lg:col-span-3 space-y-6 order-2 lg:order-1">
             
-            <!-- 1. صفحة الرئيسية والمؤشرات -->
             <div id="page-main" class="page-content active space-y-6">
-                <!-- لوحة المؤشر الرئيسي ممتدة بالكامل بعد حذف بطاقة الوحدات -->
-                <div class="grid grid-cols-1 gap-6">
-                    <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-5 shadow-xl flex items-center justify-between gap-4">
-                        <div class="space-y-1 text-right w-full">
-                            <h4 class="text-xs font-bold text-red-500 tracking-wider">بوابة التحول الاستراتيجي الموحد (2026)</h4>
-                            <p class="text-xs text-slate-300 leading-relaxed font-semibold">
-                                الانتقال النهائي والكامل من سلك وزارة الصحة إلى سلك وزارة الداخلية تحت لواء المنظومة العسكرية المستقلة لـ LSFD.
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 text-slate-800/10 text-9xl font-black select-none pointer-events-none">LSFD</div>
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+                        <h3 class="font-black text-base text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-red-500"></i> الحالة التشغيلية والتحول القيادي
+                        </h3>
+                        <span class="text-xs font-bold text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">تحديث فوري</span>
+                    </div>
+                    <div class="bg-[#101222] border border-slate-800 rounded-xl p-5 space-y-3">
+                        <h4 class="text-xs font-black text-red-500 tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-circle-info"></i> قرار الإشراف العسكري المستقل (2026)
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed font-medium">
+                            بناءً على التوجيهات العليا، تم إنهاء تبعية الـ LSFD الإدارية لبيروقراطية وزارة الصحة المدنية، والتحول الشامل إلى قطاع طوارئ وإنقاذ شبه عسكري مستقل يعمل بنظام الرتب، والـ SOP الميداني الموحد لضمان سرعة الاستجابة وكفاءة العمل.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                        <div class="bg-[#101222] border border-slate-800/80 p-4 rounded-xl text-center">
+                            <span class="text-xs text-slate-400 block mb-1">المركبات المتاحة</span>
+                            <span class="text-xl font-black text-emerald-400 font-mono">14 / 14</span>
+                        </div>
+                        <div class="bg-[#101222] border border-slate-800/80 p-4 rounded-xl text-center">
+                            <span class="text-xs text-slate-400 block mb-1">بلاغات منتهية اليوم</span>
+                            <span class="text-xl font-black text-blue-400 font-mono">42</span>
+                        </div>
+                        <div class="bg-[#101222] border border-slate-800/80 p-4 rounded-xl text-center">
+                            <span class="text-xs text-slate-400 block mb-1">الموظفين بنظام النوبة</span>
+                            <span class="text-xl font-black text-amber-400 font-mono">18</span>
+                        </div>
+                        <div class="bg-[#101222] border border-slate-800/80 p-4 rounded-xl text-center">
+                            <span class="text-xs text-slate-400 block mb-1">جاهزية الاستجابة</span>
+                            <span class="text-xl font-black text-red-400 font-mono">100%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-sop" class="page-content space-y-6">
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 mb-6 gap-4">
+                        <div>
+                            <h3 class="text-base font-black text-white flex items-center gap-2">
+                                <i class="fa-solid fa-book-shield text-red-500"></i> دليل الإجراءات القياسية الموحد (SOP) والتعاميم
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">القواعد الصارمة والأنظمة الإدارية للقطاع</p>
+                        </div>
+                        <span class="text-xs bg-red-600/10 text-red-400 border border-red-500/20 px-2.5 py-1 rounded-xl font-bold">إصدار 2026 المعتمد</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-4 mb-6">
+                        <button onclick="switchSubTab('sop-tab-1', this)" class="sop-tab-btn bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all shadow-md shadow-red-600/10">الهيكل التنظيمي والصلاحيات</button>
+                        <button onclick="switchSubTab('sop-tab-2', this)" class="sop-tab-btn bg-slate-900 text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all">بروتوكول الاستجابة المشترك مع LSPD</button>
+                        <button onclick="switchSubTab('sop-tab-3', this)" class="sop-tab-btn bg-slate-900 text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all">التعاميم والقرارات الإدارية العليا</button>
+                    </div>
+
+                    <div id="sop-tab-1" class="sub-tab-content active space-y-4">
+                        <h4 class="text-xs font-black text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-sitemap text-red-500"></i> سلسلة القيادة العسكرية (Chain of Command)</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed font-medium">
+                            يلتزم جميع الأفراد والضباط بالتعامل المباشر وفقاً لسلسلة القيادة دون تخطي الرتب العسكرية. أي تجاوز يعرض صاحبه للمساءلة والجزاء المباشر بخصم نقاط الجدارة.
+                        </p>
+                        <div class="overflow-x-auto border border-slate-800 rounded-xl mt-3">
+                            <table class="w-full text-right text-xs">
+                                <thead class="bg-[#101222] text-slate-300 border-b border-slate-800 font-bold">
+                                    <tr>
+                                        <th class="p-3">الفئة الرتبوية</th>
+                                        <th class="p-3">الرتب الميدانية</th>
+                                        <th class="p-3">الصلاحيات والمسؤوليات الرئيسية</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60 font-medium text-slate-400">
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-200">القيادة العليا (High Command)</td>
+                                        <td class="p-3 text-red-400 font-bold">Fire Chief / Battalion Chief</td>
+                                        <td class="p-3">إدارة القطاع بالكامل، إصدار التعاميم والترقيات والقرارات النهائية وفصل المتمردين.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-200">الضباط الميدانيين (Officers)</td>
+                                        <td class="p-3 text-amber-400 font-bold">Captain / Lieutenant</td>
+                                        <td class="p-3">إدارة المشاهد الكبرى، توزيع الفرق والآليات، وتقييم المتدربين في الميدان.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-200">الأفراد والمسعفين (Enlisted)</td>
+                                        <td class="p-3 text-slate-300">Paramedic (I, II, III) / Recruit</td>
+                                        <td class="p-3">مباشرة الحوادث، معالجة المصابين، تفعيل الإسناد التبادلي، والالتزام بأوامر القادة.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="sop-tab-2" class="sub-tab-content space-y-4">
+                        <h4 class="text-xs font-black text-slate-100 flex items-center gap-1.5"><i class="fa-solid fa-shield text-blue-500"></i> نطاقات التأمين الميداني المشترك</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed font-medium">
+                            عند الاستجابة لبلاغات تحتوي على إطلاق نار أو تهديد أمني، يمنع منعاً باتاً دخول طواقم الـ LSFD قبل قيام الشرطة (LSPD) بتأمين الموقع وفرز النطاقات كالتالي:
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-center mt-2">
+                            <div class="bg-red-950/30 border border-red-800/50 p-4 rounded-xl">
+                                <h5 class="font-bold text-red-400 mb-1">المنطقة الحمراء (Hot Zone)</h5>
+                                <p class="text-slate-400 text-[11px] leading-relaxed">خطر قائم ونشط. يُمنع دخول المسعفين العاديين نهائياً، ويقتصر على الإخلاء بواسطة مدرعات الشرطة.</p>
+                            </div>
+                            <div class="bg-amber-950/30 border border-amber-800/50 p-4 rounded-xl">
+                                <h5 class="font-bold text-amber-400 mb-1">المنطقة الصفراء (Warm Zone)</h5>
+                                <p class="text-slate-400 text-[11px] leading-relaxed">منطقة فرز الحالات (Staging Area). تتمركز بها الرتب القيادية بالتنسيق مع القائد الأمني للموقع.</p>
+                            </div>
+                            <div class="bg-emerald-950/30 border border-emerald-800/50 p-4 rounded-xl">
+                                <h5 class="font-bold text-emerald-400 mb-1">المنطقة الخضراء (Cold Zone)</h5>
+                                <p class="text-slate-400 text-[11px] leading-relaxed">منطقة آمنة بالكامل. تتمركز بها عربات الإسعاف التكتيكية لبدء النقل الفوري للمستشفى.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="sop-tab-3" class="sub-tab-content space-y-4">
+                        <div class="bg-[#101222] border border-slate-800 rounded-xl p-5 border-r-4 border-red-500 space-y-2">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="font-black text-white">تعميم رقم (04-2026): إلزامية تطبيق بروتوكول Drop-and-Go</span>
+                                <span class="text-slate-400 font-mono">2026/06/08</span>
+                            </div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                يُعمم على كافة منسوبي القطاع والمستشفيات التابعة، بمنع التكديس أو البقاء داخل ردهات الطوارئ لأكثر من 5 دقائق. يجب تسليم الحالة فوراً للمستشفى والعودة للميدان (10-8) للمحافظة على الجاهزية القصوى. من يخالف ذلك يقع تحت طائلة جزاءات الدرجة الثانية.
                             </p>
-                        </div>
-                        <div class="bg-red-500/15 border border-red-500/20 p-3 rounded-xl text-red-500 text-2xl flex items-center justify-center shrink-0">
-                            <i class="fa-solid fa-arrows-spin"></i>
+                            <div class="text-left text-[11px] font-black text-red-400 italic">صادر عن: مكتب القيادة العليا للـ LSFD</div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- بطاقة قرار الترسيم والاعتماد الفوري -->
-                <div class="bg-gradient-to-r from-amber-600/10 via-amber-600/5 to-transparent border border-amber-600/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
-                    <div class="flex items-center gap-3.5">
-                        <div class="bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-xl text-amber-500 text-xl flex items-center justify-center">
-                            <i class="fa-solid fa-file-signature"></i>
-                        </div>
-                        <div class="text-right">
-                            <h3 class="text-xs font-bold text-amber-500">معاينة قرار الترسيم والاعتماد</h3>
-                            <p class="text-[11px] text-slate-400 mt-0.5">يرجى من كافة الضباط والأفراد المصادقة على الهوية الإدارية المستحدثة للقطاع.</p>
-                        </div>
-                    </div>
-                    <button onclick="switchPage('page-decision')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-xl transition-all duration-200 shadow-md whitespace-nowrap">
-                        معاينة قرار الترسيم والاعتماد
-                    </button>
-                </div>
-
-                <!-- قسم أجندة وخارطة طريق الانتقال الميداني -->
-                <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-5 shadow-xl space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-800/60 pb-3">
-                        <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-red-500"></i> أجندة وخارطة طريق الانتقال الميداني
+            <div id="page-academy" class="page-content space-y-6">
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+                    <div class="border-b border-slate-800 pb-4">
+                        <h3 class="text-base font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-red-500"></i> أكاديمية التدريب والتأهيل الميداني المتقدم
                         </h3>
-                        <span class="text-[10px] font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full">المرحلة الثالثة والأخيرة</span>
+                        <p class="text-xs text-slate-400 mt-0.5">تقييم مستجدين ومتدربي القطاع برمجياً وبشكل حي دقيق</p>
                     </div>
-                    <div class="space-y-3.5 text-right">
-                        <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-800/10 border border-slate-800/50">
-                            <input type="checkbox" checked class="w-4 h-4 rounded text-red-500 bg-slate-900 border-slate-700 mt-0.5" disabled>
-                            <div>
-                                <span class="text-xs font-bold text-slate-200 block">إلغاء مسمى "وزارة الصحة" المالي والإداري</span>
-                                <span class="text-[11px] text-slate-400 mt-0.5 block">تحويل جميع الملفات ومسكن الكوادر على الرتب العسكرية لـ LSFD.</span>
-                            </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
+                        <div class="bg-[#101222] border border-slate-800 p-4 rounded-xl space-y-1">
+                            <h4 class="text-xs font-black text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-book text-sm"></i> المنهج التشغيلي الموحد</h4>
+                            <p class="text-[11px] text-slate-400 leading-relaxed">تلقين المتدربين بآليات القيادة الآمنة، واستخدام الراديو بشكل صحيح، وحفظ سلسلة القيادة والمراجع الإدارية للقطاع.</p>
                         </div>
-                        <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-800/10 border border-slate-800/50">
-                            <input type="checkbox" checked class="w-4 h-4 rounded text-red-500 bg-slate-900 border-slate-700 mt-0.5" disabled>
-                            <div>
-                                <span class="text-xs font-bold text-slate-200 block">تفعيل ميكانيكية "Drop-and-Go"</span>
-                                <span class="text-[11px] text-slate-400 mt-0.5 block">عدم مكوث سيارة الإسعاف بالمستشفى الرئيسي على 5 دقائق كحد أقصى.</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-800/10 border border-slate-800/50">
-                            <input type="checkbox" class="w-4 h-4 rounded text-red-500 bg-slate-900 border-slate-700 mt-0.5" disabled>
-                            <div>
-                                <span class="text-xs font-bold text-slate-200 block">تشغيل بند الإسناد التطوعي والتبادلي تلقائياً</span>
-                                <span class="text-[11px] text-slate-400 mt-0.5 block">سحب الوحدات الشاغرة من الميدان لتشغيل أسرة المستشفى عند حدوث عجز ميداني.</span>
-                            </div>
+                        <div class="bg-[#101222] border border-slate-800 p-4 rounded-xl space-y-1">
+                            <h4 class="text-xs font-black text-amber-500 flex items-center gap-1.5"><i class="fa-solid fa-user-doctor text-sm"></i> التأهيل التكتيكي الطبي والإطفائي</h4>
+                            <p class="text-[11px] text-slate-400 leading-relaxed">الابتعاد التام عن الجوانب النظرية غير المجدية، والتركيز على الفحص الميداني والمحاكاة لضمان سرعة إسعاف وإنقاذ الأرواح.</p>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- 2. صفحة الأدلة والبروتوكولات (SOP) -->
-            <div id="page-sop" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-6 text-right">
-                <div class="border-b border-slate-800 pb-4">
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-shield-halved text-red-500"></i> وثيقة التخطيط الاستراتيجي والـ SOPs المعتمدة
-                    </h3>
-                    <p class="text-xs text-slate-400 mt-1">خطة التحول الكامل لعام 2026 والامتثال العام للمنظومة</p>
-                </div>
-                
-                <div class="space-y-4 text-xs text-slate-300">
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
-                        <h4 class="font-bold text-red-400 mb-2">1. تسلسل المراتب وسلسلة القيادة (COC):</h4>
-                        <p class="leading-relaxed text-slate-400">الالتزام التام بالتسلسل الرتبوي الميداني والإداري من أدنى رتبة إلى أعلى هرم القيادة العليا، ويمنع تجاوز أي رتبة خطية أثناء رفع التقارير أو الشكاوى.</p>
-                    </div>
-
-                    <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
-                        <h4 class="font-bold text-red-400 mb-2">2. نظام الفرز الطبي والإنقاذ الميداني (Triage):</h4>
-                        <ul class="list-disc list-inside space-y-1.5 text-slate-400">
-                            <li><span class="text-red-500 font-bold">الحالات الحرجة جداً (Red):</span> نقل فوري وغير مشروط دون انتظار أي إجراءات ورقية.</li>
-                            <li><span class="text-amber-500 font-bold">الحالات المتوسطة (Yellow):</span> تقديم الإسعافات الأولية وتأمين الحالة في الموقع قبل النقل.</li>
-                            <li><span class="text-emerald-500 font-bold">الحالات المستقرة (Green):</span> التعامل معها في مسرح الحدث لتخفيف الضغط على المستشفيات.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. صفحة الأكاديمية وبطاقة التقييم التفاعلية الكاملة -->
-            <div id="page-academy" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-6 text-right">
-                <div class="border-b border-slate-800 pb-4">
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-graduation-cap text-red-500"></i> أكاديمية تدريب LSFD ومتابعة الأداء
-                    </h3>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                    <!-- الفورم التفاعلي لإصدار التقييم -->
-                    <div class="bg-slate-900/50 border border-slate-800/80 p-5 rounded-xl space-y-4">
-                        <h4 class="text-xs font-bold text-slate-300 border-b border-slate-800 pb-2">نموذج التقييم الميداني (للمدربين فقط)</h4>
-                        
-                        <div class="space-y-1">
-                            <label class="text-[11px] font-bold text-slate-400 block">اسم المتدرب:</label>
-                            <input type="text" id="traineeName" placeholder="أدخل اسم المتدرب كاملاً..." class="w-full bg-[#0f111a] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500">
-                        </div>
-
-                        <div class="space-y-3">
-                            <label class="text-[11px] font-bold text-slate-400 block">رصد بنود الامتثال الميداني:</label>
-                            <div class="flex justify-between items-center bg-[#0f111a] p-2 rounded-lg border border-slate-800/60">
-                                <span class="text-xs text-slate-300">سرعة الاستجابة للبلاغ</span>
-                                <select id="score1" class="bg-slate-900 text-xs text-emerald-400 font-bold focus:outline-none">
-                                    <option value="5">ممتاز (5)</option>
-                                    <option value="3">متوسط (3)</option>
-                                    <option value="1">ضعيف (1)</option>
-                                </select>
-                            </div>
-                            <div class="flex justify-between items-center bg-[#0f111a] p-2 rounded-lg border border-slate-800/60">
-                                <span class="text-xs text-slate-300">الاحترافية والامتثال للـ SOP</span>
-                                <select id="score2" class="bg-slate-900 text-xs text-emerald-400 font-bold focus:outline-none">
-                                    <option value="5">ممتاز (5)</option>
-                                    <option value="3">متوسط (3)</option>
-                                    <option value="1">ضعيف (1)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button onclick="calculateTraineeScore()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold text-xs py-2.5 rounded-lg transition-all">إصدار نتيجة التقييم</button>
-                    </div>
-
-                    <!-- صندوق عرض النتيجة -->
-                    <div id="traineeResultCard" class="bg-[#0f111a] border border-slate-800/80 p-5 rounded-xl hidden space-y-3">
-                        <h4 class="text-xs font-bold text-amber-500">بطاقة النتيجة الرقمية للمتدرب</h4>
-                        <div class="text-xs space-y-2 text-slate-300">
-                            <p>المتدرب: <span id="resTraineeName" class="text-white font-bold"></span></p>
-                            <p>مجموع النقاط: <span id="resTraineeScore" class="text-red-400 font-bold">0 / 10</span></p>
-                            <p>حالة التقييم: <span id="resTraineeStatus" class="font-bold"></span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. صفحة كتالوج الراديو بالتصفح الداخلي الكامل -->
-            <div id="page-radio" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-6 text-right">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 gap-4">
-                    <div>
-                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-radio text-red-500"></i> كتالوج رموز التخاطب اللاسلكي التفاعلي
-                        </h3>
-                        <p class="text-xs text-slate-400 mt-1">اضغط على التبويب لعرض الأكواد والرموز الخاصة بكل بند</p>
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 bg-[#0f111a] p-1 rounded-lg border border-slate-800">
-                        <button onclick="switchRadioTab('radio-all', this)" class="radio-tab-btn bg-slate-800/80 text-white text-[11px] font-bold px-3 py-1.5 rounded-md transition-all">الكل</button>
-                        <button onclick="switchRadioTab('radio-codes', this)" class="radio-tab-btn text-slate-400 hover:text-white text-[11px] font-bold px-3 py-1.5 rounded-md transition-all">أكواد الاستجابة</button>
-                        <button onclick="switchRadioTab('radio-status', this)" class="radio-tab-btn text-slate-400 hover:text-white text-[11px] font-bold px-3 py-1.5 rounded-md transition-all">الحالات الطارئة والعمليات</button>
-                    </div>
-                </div>
-
-                <!-- محتوى تبويب: الكل -->
-                <div id="radio-all" class="radio-tab-content active grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-xl flex justify-between items-center">
-                        <div class="space-y-1"><span class="text-xs font-bold text-white block">مفهوم واستلمت الأمر كاملاً</span><span class="text-[10px] text-slate-500">الاستجابة اللاسلكية القياسية</span></div>
-                        <span class="text-red-400 font-mono font-bold text-sm bg-red-500/10 border border-red-500/20 px-2 py-1 rounded">10-4</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-xl flex justify-between items-center">
-                        <div class="space-y-1"><span class="text-xs font-bold text-white block">الوحدة متاحة وفي الميدان</span><span class="text-[10px] text-slate-500">الحالة التشغيلية العامة للوحدات</span></div>
-                        <span class="text-red-400 font-mono font-bold text-sm bg-red-500/10 border border-red-500/20 px-2 py-1 rounded">10-8</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-xl flex justify-between items-center">
-                        <div class="space-y-1"><span class="text-xs font-bold text-white block">استجابة طارئة قصوى (صافرات وأنوار)</span><span class="text-[10px] text-slate-500">أولوية التحرك القصوى للموقع</span></div>
-                        <span class="text-amber-500 font-mono font-bold text-sm bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">Code 3</span>
-                    </div>
-                </div>
-
-                <!-- محتوى تبويب: أكواد الاستجابة -->
-                <div id="radio-codes" class="radio-tab-content grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-xl flex justify-between items-center">
-                        <div class="space-y-1"><span class="text-xs font-bold text-white block">استجابة روتينية اعتيادية</span><span class="text-[10px] text-slate-500">التحرك العادي دون استخدام المنبهات</span></div>
-                        <span class="text-emerald-400 font-mono font-bold text-sm bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">Code 2</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-xl flex justify-between items-center">
-                        <div class="space-y-1"><span class="text-xs font-bold text-white block">استجابة طارئة قصوى</span><span class="text-[10px] text-slate-500">أولوية التحرك السريع بصفارات الإنذار</span></div>
-                        <span class="text-amber-500 font-mono font-bold text-sm bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded">Code 3</span>
-                    </div>
-                </div>
-
-                <!-- محتوى تبويب: الحالات الطارئة والعمليات -->
-                <div id="radio-status" class="radio-tab-content grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-xl flex justify-between items-center">
-                        <div class="space-y-1"><span class="text-xs font-bold text-white block">الوحدة خارج الخدمة مؤقتاً</span><span class="text-[10px] text-slate-500">توقف تشغيل المركبة مؤقتاً لأي سبب</span></div>
-                        <span class="text-red-400 font-mono font-bold text-sm bg-red-500/10 border border-red-500/20 px-2 py-1 rounded">10-7</span>
-                    </div>
-                    <div class="bg-slate-900/60 p-4 border border-slate-800 rounded-xl flex justify-between items-center">
-                        <div class="space-y-1"><span class="text-xs font-bold text-white block">تحديد وإرسال الموقع الميداني</span><span class="text-[10px] text-slate-500">الإفادة بالموقع للعمليات المركزية</span></div>
-                        <span class="text-red-400 font-mono font-bold text-sm bg-red-500/10 border border-red-500/20 px-2 py-1 rounded">10-20</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. صفحة الجزاءات وحساب الترقيات التفاعلية بالكامل -->
-            <div id="page-promotions" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-6 text-right">
-                <div class="border-b border-slate-800 pb-4">
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-scale-balanced text-orange-500"></i> مصفوفة المخالفات والجزاءات العسكرية (Disciplinary Matrix)
-                    </h3>
-                </div>
-
-                <!-- الأكورديون الميكانيكي للمخالفات -->
-                <div class="space-y-3">
-                    <details class="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden group">
-                        <summary class="list-none flex justify-between items-center p-4 cursor-pointer font-bold text-xs text-slate-200 hover:bg-slate-800/20 select-none">
-                            <span>1. مخالفات الدرجة الأولى (مخالفات خفيفة - Minor)</span>
-                            <i class="fa-solid fa-angle-down text-[10px] transition-transform group-open:rotate-180"></i>
-                        </summary>
-                        <div class="p-4 border-t border-slate-800 bg-[#0f111a]/40 text-xs text-slate-400 leading-relaxed space-y-1">
-                            • التخلف البسيط عن نداءات الراديو العادية دون مبرر تشغيلي مقنع.<br>
-                            • عدم الالتزام بالزي الرسمي الميداني الكامل المعتمد للقطاع أثناء مباشرة البلاغ.
-                        </div>
-                    </details>
-
-                    <details class="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden group">
-                        <summary class="list-none flex justify-between items-center p-4 cursor-pointer font-bold text-xs text-slate-200 hover:bg-slate-800/20 select-none">
-                            <span>2. مخالفات الدرجة الثانية (مخالفات متوسطة - Moderate)</span>
-                            <i class="fa-solid fa-angle-down text-[10px] transition-transform group-open:rotate-180"></i>
-                        </summary>
-                        <div class="p-4 border-t border-slate-800 bg-[#0f111a]/40 text-xs text-slate-400 leading-relaxed space-y-1">
-                            • إساءة استخدام قنوات التخاطب اللاسلكي أو تعطيل نداءات الوحدات الطارئة.<br>
-                            • مخالفة قواعد بروتوكول الـ Drop-and-Go والمكوث بالمستشفى لأكثر من الوقت المحدد.
-                        </div>
-                    </details>
-
-                    <details class="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden group">
-                        <summary class="list-none flex justify-between items-center p-4 cursor-pointer font-bold text-xs text-slate-200 hover:bg-slate-800/20 select-none">
-                            <span>3. مخالفات الدرجة الثالثة (مخالفات جسيمة - Major)</span>
-                            <i class="fa-solid fa-angle-down text-[10px] transition-transform group-open:rotate-180"></i>
-                        </summary>
-                        <div class="p-4 border-t border-slate-800 bg-[#0f111a]/40 text-xs text-slate-400 leading-relaxed space-y-1">
-                            • التمرد على أوامر القيادة الميدانية المباشرة وتجاوز خطوط التسلسل الرتبوي (COC).<br>
-                            • مغادرة مسرح العمليات النشط أو الانسحاب غير المبرر أثناء مباشرة الحوادث الكبرى والحرائق الهيكلية.
-                        </div>
-                    </details>
-                </div>
-
-                <!-- حاسبة الترقيات التفاعلية -->
-                <div class="bg-slate-900/40 border border-slate-800/80 p-5 rounded-2xl space-y-4">
-                    <h4 class="text-xs font-bold text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-calculator text-orange-500"></i> نظام تفاعلي لتحليل الترقيات (Promotion Calculator)
+                    <h4 class="text-sm font-black text-slate-100 border-t border-slate-800 pt-4 flex items-center gap-2">
+                        <i class="fa-solid fa-file-pen text-red-500"></i> نموذج رصد درجات التقييم (تفاعلي وحي بالكامل)
                     </h4>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-3">
-                            <div class="space-y-1">
-                                <label class="text-[11px] font-bold text-slate-400 block">الساعات الميدانية المكتملة (حد أدنى 10 ساعات):</label>
-                                <input type="number" id="fieldHours" placeholder="مثال: 12" class="w-full bg-[#0f111a] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500">
-                            </div>
-                            <div class="space-y-1">
-                                <label class="text-[11px] font-bold text-slate-400 block">عدد التقارير والـ E-PCR الطبية المكتملة:</label>
-                                <input type="number" id="reportsCount" placeholder="مثال: 5" class="w-full bg-[#0f111a] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500">
-                            </div>
-                            <button onclick="calculatePromotion()" class="w-full bg-gradient-to-r from-orange-600 to-amber-600 text-slate-950 font-black text-xs py-3 rounded-xl transition-all shadow-lg">احسب نقاط الترقية والتقرير</button>
-                        </div>
 
-                        <!-- المخرجات الديناميكية للحاسبة -->
-                        <div class="bg-[#0f111a] border border-slate-800/60 p-4 rounded-xl flex flex-col justify-between">
-                            <div class="space-y-2">
-                                <span class="text-[11px] font-bold text-slate-400 block">تفاصيل الترقية والاستحقاق:</span>
-                                <div id="promoDetails" class="text-xs text-slate-300 space-y-1.5 font-medium">
-                                    <p>• إجمالي النقاط المحسوبة: <span class="text-slate-500">في انتظار البيانات...</span></p>
-                                    <p>• الرتبة المستهدفة المقترحة: <span class="text-slate-500">في انتظار البيانات...</span></p>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 items-start">
+                        <div class="md:col-span-3 bg-[#101222] border border-slate-800 p-5 rounded-xl space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold text-slate-400 block">اسم المتدرب الخاضع للاختبار:</label>
+                                    <input type="text" id="traineeName" value="فهد العتيبي" class="w-full bg-[#06070d] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold text-slate-400 block">اسم الضابط أو المدرب المسؤول:</label>
+                                    <input type="text" id="instructorName" value="Lieutenant Commander" class="w-full bg-[#06070d] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500">
                                 </div>
                             </div>
-                            <div class="text-[10px] text-slate-500 border-t border-slate-800/80 pt-2 mt-2 leading-relaxed">
-                                احتساب النقاط يعتمد تلقائياً على خوارزمية دمج ساعات الميدان الفعلي والامتثال التام للـ SOPs.
+
+                            <div class="space-y-3 pt-2">
+                                <label class="text-[11px] font-black text-slate-400 block border-b border-slate-800 pb-1">درجات بنود التقييم الميداني:</label>
+                                
+                                <div class="flex justify-between items-center bg-[#06070d] p-3 rounded-lg border border-slate-800/60">
+                                    <span class="text-xs text-slate-300 font-bold">1. فحص القيادة التكتيكية والتحكم بالمركبة</span>
+                                    <select id="scoreDrive" class="bg-slate-900 text-xs text-amber-400 font-bold focus:outline-none">
+                                        <option value="5" selected>ممتاز (5 درجات)</option>
+                                        <option value="3">مقبول (3 درجات)</option>
+                                        <option value="0">ضعيف (0 درجة)</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex justify-between items-center bg-[#06070d] p-3 rounded-lg border border-slate-800/60">
+                                    <span class="text-xs text-slate-300 font-bold">2. المعرفة بالقوانين وسلسلة القيادة والـ SOP</span>
+                                    <select id="scoreSop" class="bg-slate-900 text-xs text-amber-400 font-bold focus:outline-none">
+                                        <option value="5">ممتاز (5 درجات)</option>
+                                        <option value="3" selected>مقبول (3 درجات)</option>
+                                        <option value="0">ضعيف (0 درجة)</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex justify-between items-center bg-[#06070d] p-3 rounded-lg border border-slate-800/60">
+                                    <span class="text-xs text-slate-300 font-bold">3. سرعة التعامل مع الحالات والفرز الطبي (Triage)</span>
+                                    <select id="scoreEms" class="bg-slate-900 text-xs text-amber-400 font-bold focus:outline-none">
+                                        <option value="5">ممتاز (5 درجات)</option>
+                                        <option value="3" selected>مقبول (3 درجات)</option>
+                                        <option value="0">ضعيف (0 درجة)</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex justify-between items-center bg-[#06070d] p-3 rounded-lg border border-slate-800/60">
+                                    <span class="text-xs text-slate-300 font-bold">4. الانضباط اللاسلكي والتحدث بالأكواد (10-Codes)</span>
+                                    <select id="scoreRadio" class="bg-slate-900 text-xs text-amber-400 font-bold focus:outline-none">
+                                        <option value="5" selected>ممتاز (5 درجات)</option>
+                                        <option value="3">مقبول (3 درجات)</option>
+                                        <option value="0">ضعيف (0 درجة)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button onclick="processAcademyEvaluation()" class="w-full bg-red-600 hover:bg-red-700 text-white font-black text-xs py-3 rounded-xl transition-all shadow-lg shadow-red-600/10">إصدار وحفظ وثيقة التقييم</button>
+                        </div>
+
+                        <div class="md:col-span-2 bg-[#06070d] border border-slate-800 p-5 rounded-xl space-y-4">
+                            <h5 class="text-xs font-black text-slate-300 border-b border-slate-800 pb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-print text-slate-400"></i> وثيقة التخرج والاعتماد الرسمية
+                            </h5>
+                            <div class="text-xs space-y-3 font-semibold text-slate-300">
+                                <div class="flex justify-between"><span>اسم المتدرب:</span> <span id="resName" class="text-white font-bold">-</span></div>
+                                <div class="flex justify-between"><span>المدرب المسؤول:</span> <span id="resInstructor" class="text-slate-400">-</span></div>
+                                <div class="flex justify-between"><span>الدرجة الكلية:</span> <span id="resPoints" class="text-amber-400 font-mono font-black text-sm">0 / 20 درجة</span></div>
+                                <div class="flex justify-between"><span>النسبة المئوية:</span> <span id="resPercent" class="text-white font-mono">0%</span></div>
+                                <div class="flex justify-between items-center"><span>قرار اللجنة:</span> <span id="resStatus" class="bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-[11px] font-bold">بانتظار الحساب</span></div>
+                            </div>
+                            <div class="text-[10px] text-slate-500 leading-relaxed border-t border-slate-800/80 pt-3">
+                                <strong class="text-slate-400">ملاحظة تنظيمية:</strong> درجة النجاح الدنيا هي 70% (14 درجة فما فوق). يحق لمن يحصل على نتيجة "إعادة تأهيل" التقدم مجدداً بعد مرور 24 ساعة من تاريخ رصد المخالفة أو الإخفاق.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 6. صفحة ورش العمل والبروتوكولات (RIP Recipes) -->
-            <div id="page-workshops" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-6 text-right">
-                <div class="border-b border-slate-800 pb-4">
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-screwdriver-wrench text-red-500"></i> العمل الفني الميداني وورش العمل التدريبية (RIP Recipes)
-                    </h3>
-                    <p class="text-xs text-slate-400 mt-1">المعايير الهندسية والبروتوكولات الميدانية الخاصة بعمليات الإنقاذ والإسناد الموحد</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div class="bg-slate-900/50 p-4 border border-slate-800 rounded-xl space-y-2">
-                        <h4 class="font-bold text-amber-500">الخطوات الميدانية للحريق الهيكلي:</h4>
-                        <p class="text-slate-400 leading-relaxed">1. فرض طوق أمني آمن بالتعاون الكامل مع وحدات الـ LSPD وتحديد مناطق الخطر (Hot Zone).<br>2. نشر خطوط الهجوم الرئيسية وفتح منافذ التهوية الفنية لتفريغ الغازات الحارة لتسريع وتيرة الاقتحام الداخلي.</p>
+            <div id="page-radio" class="page-content space-y-6">
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl">
+                    <div class="border-b border-slate-800 pb-4 mb-6">
+                        <h3 class="text-base font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-microphone-lines text-red-500"></i> دليل رموز التخاطب اللاسلكي الموحد (10-Codes)
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">انقر على الأزرار لتصفية الأكواد والوصول السريع للرمز المطلوب</p>
                     </div>
-                    <div class="bg-slate-900/50 p-4 border border-slate-800 rounded-xl space-y-2">
-                        <h4 class="font-bold text-amber-500">خطوات الإنقاذ في حوادث الطرق:</h4>
-                        <p class="text-slate-400 leading-relaxed">1. تثبيت الهيكل الخارجي للمركبات المصابة باستخدام كتل التثبيت الميكانيكية لضمان الاستقرار التام الحركي.<br>2. استخدام الفواصم الهيدروليكية لقص الأبواب والدعامات بدقة متناهية وإخلاء المصابين دون إحداث أضرار إضافية.</p>
+
+                    <div class="flex flex-wrap gap-2 bg-[#06070d] p-1.5 rounded-xl border border-slate-800 max-w-max mb-6">
+                        <button onclick="filterCodes('all', this)" class="code-filter-btn bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all">عرض الكل</button>
+                        <button onclick="filterCodes('status', this)" class="code-filter-btn text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all">رموز الحالة العامة</button>
+                        <button onclick="filterCodes('medical', this)" class="code-filter-btn text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all">البلاغات الطبية والحرائق</button>
+                        <button onclick="filterCodes('response', this)" class="code-filter-btn text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all">أكواد الحماية والاستجابة</button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="status">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">تم الاستلام ومفهوم تماماً (علم).</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الحالة العامة</span>
+                            </div>
+                            <span class="text-red-400 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">10-4</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="status">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">متوفر بالشارع ومتاح لاستقبال البلاغات.</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الحالة العامة</span>
+                            </div>
+                            <span class="text-red-400 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">10-8</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="status">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">خارج الخدمة (نهاية الشفت أو استراحة فنية).</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الحالة العامة</span>
+                            </div>
+                            <span class="text-red-400 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">10-7</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="status">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">العودة المباشرة إلى المقر الرئيسي (Station).</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الحالة العامة</span>
+                            </div>
+                            <span class="text-red-400 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">10-19</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="status">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">طلب تحديد الموقع الحالي بدقة.</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الحالة العامة</span>
+                            </div>
+                            <span class="text-red-400 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">10-20</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="status">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">الوصول الفعلي لموقع الحادث (On Scene).</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الحالة العامة</span>
+                            </div>
+                            <span class="text-red-400 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">10-23</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="medical">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">رصد حالة وفاة مؤكدة بالموقع (Fatality).</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الطوارئ والإنقاذ</span>
+                            </div>
+                            <span class="text-amber-500 font-mono font-black text-xs border border-amber-500/20 bg-amber-500/5 px-2.5 py-1 rounded-lg shrink-0">10-45</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="medical">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">حادث تصادم مروري بين المركبات (Crash).</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الطوارئ والإنقاذ</span>
+                            </div>
+                            <span class="text-amber-500 font-mono font-black text-xs border border-amber-500/20 bg-amber-500/5 px-2.5 py-1 rounded-lg shrink-0">10-50</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="medical">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">طلب إسناد وإرسال سيارة إسعاف إضافية فوراً.</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الطوارئ والإنقاذ</span>
+                            </div>
+                            <span class="text-amber-500 font-mono font-black text-xs border border-amber-500/20 bg-amber-500/5 px-2.5 py-1 rounded-lg shrink-0">10-52</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="medical">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">حريق نشط مستعر في منشأة أو مركبة.</span>
+                                <span class="text-[10px] text-slate-500 font-bold">الطوارئ والإنقاذ</span>
+                            </div>
+                            <span class="text-amber-500 font-mono font-black text-xs border border-amber-500/20 bg-amber-500/5 px-2.5 py-1 rounded-lg shrink-0">10-70</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="response">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">استغاثة عاجلة جداً: حياة رجل الإطفاء/المسعف بخطر.</span>
+                                <span class="text-[10px] text-slate-500 font-bold">أكواد الاستجابة</span>
+                            </div>
+                            <span class="text-red-500 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">Code 0</span>
+                        </div>
+                        <div class="radio-card active bg-[#101222] border border-slate-800/80 p-4 rounded-xl justify-between items-center gap-4" data-cat="response">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-bold text-white block">استجابة طارئة قصوى بأعلى سرعة (سرينة وفلاشات كاملة).</span>
+                                <span class="text-[10px] text-slate-500 font-bold">أكواد الاستجابة</span>
+                            </div>
+                            <span class="text-red-500 font-mono font-black text-xs border border-red-500/20 bg-red-500/5 px-2.5 py-1 rounded-lg shrink-0">Code 3</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 7. صفحة وثيقة القرار والترسيم الاعتمادي المباشر -->
-            <div id="page-decision" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4 text-right">
-                <h3 class="text-lg font-bold text-amber-500 border-b border-slate-800 pb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-file-signature"></i> وثيقة قرار الترسيم والتحول الاستراتيجي
-                </h3>
-                <div class="space-y-3 text-xs text-slate-300 leading-relaxed font-mono bg-slate-900 p-5 rounded-xl border border-slate-800">
-                    <p class="text-center font-bold text-white text-sm">مذكرة اعتماد رقم: LSFD-2026-99</p>
-                    <hr class="border-slate-800">
-                    <p>بناءً على التوجيهات الصادرة وبموجب الصلاحيات الممنوحة، يعتمد بشكل قطعي نقل كافة الكوادر الطبية والميدانية وتسكينهم على السلك العسكري المستقل لـ LSFD التابع إدارياً لوزارة الداخلية بدلاً من وزارة الصحة.</p>
-                    <p class="text-amber-400 font-bold text-left mt-4">صادر عن القيادة العليا بـ Los Santos</p>
+            <div id="page-promotions" class="page-content space-y-6">
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h3 class="font-black text-base text-white flex items-center gap-2">
+                            <i class="fa-solid fa-scale-unbalanced text-amber-500"></i> مصفوفة الانضباط والجزاءات العسكرية (Disciplinary Matrix)
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">اللوائح الإلزامية لضبط الموظفين ومنع التسيب الميداني</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <details class="bg-[#101222] border border-slate-800 rounded-xl overflow-hidden group" open>
+                            <summary class="list-none flex justify-between items-center p-4 cursor-pointer font-bold text-xs text-slate-200 hover:bg-slate-800/20 select-none">
+                                <span>مخالفات الدرجة الأولى (بسيطة / Minor) - تأثير خصم النقاط تلقائي</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <div class="p-4 border-t border-slate-800 bg-[#06070d]/60 text-xs text-slate-400 leading-relaxed">
+                                • الحديث الجانبي والهزل في موجات الراديو الرسمية: عقوبتها لفت نظر أول مع <strong class="text-red-400">خصم 2 نقطة</strong> جدارة.<br>
+                                • عدم الالتزام بالهندام المعتمد للرتبة: تنبيه شفهي، والتكرار يستوجب <strong class="text-red-400">خصم 3 نقاط</strong>.
+                            </div>
+                        </details>
+
+                        <details class="bg-[#101222] border border-slate-800 rounded-xl overflow-hidden group">
+                            <summary class="list-none flex justify-between items-center p-4 cursor-pointer font-bold text-xs text-slate-200 hover:bg-slate-800/20 select-none">
+                                <span>مخالفات الدرجة الثانية (متوسطة / Moderate) - تأثير خصم النقاط تلقائي</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <div class="p-4 border-t border-slate-800 bg-[#06070d]/60 text-xs text-slate-400 leading-relaxed">
+                                • مخالفة بروتوكول "Drop-and-Go" والتكديس بالمستشفيات: إنذار كتابي رسمي بملف الموظف مع <strong class="text-red-400">خصم 5 نقاط</strong> من ملف الترقية.<br>
+                                • نسيان تحديث الحالة في نظام الـ MDT اللاسلكي: <strong class="text-red-400">خصم 4 نقاط</strong> جدارة بشكل فوري.
+                            </div>
+                        </details>
+
+                        <details class="bg-[#101222] border border-slate-800 rounded-xl overflow-hidden group">
+                            <summary class="list-none flex justify-between items-center p-4 cursor-pointer font-bold text-xs text-slate-200 hover:bg-slate-800/20 select-none">
+                                <span>مخالفات الدرجة الثالثة (جسيمة / Major) - عقوبات رادعة</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform group-open:rotate-180"></i>
+                            </summary>
+                            <div class="p-4 border-t border-slate-800 bg-[#06070d]/60 text-xs text-slate-400 leading-relaxed">
+                                • الدخول إلى المناطق الحمراء (Hot Zones) قبل تأمين الشرطة: تجميد الرتبة، والمنع من النزول للميدان 48 ساعة مع <strong class="text-red-400">خصم 15 نقطة</strong>.<br>
+                                • التمرد ورفض التوجيهات الصادرة من الرتب القيادية في المشهد الحادث: تحويل للتحقيق الإداري تمهيداً للفصل أو الخصم القاسي لـ <strong class="text-red-400">25 نقطة</strong>.
+                            </div>
+                        </details>
+                    </div>
                 </div>
-                <button onclick="switchPage('page-main')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all">العودة للرئيسية</button>
+
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                    <div class="border-b border-slate-800 pb-2">
+                        <h4 class="text-sm font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-red-500"></i> حاسبة الجدارة والاستحقاق للترقيات (Promotion Panel)
+                        </h4>
+                        <p class="text-xs text-slate-400 mt-0.5">احتساب النقاط الإجمالية مخصوماً منها نقاط الجزاءات المسجلة</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                        <div class="md:col-span-3 space-y-4">
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-bold text-slate-400 block">عدد البلاغات والمهمات المكتملة كود 4 (+10 نقاط لكل بلاغ):</label>
+                                <input type="number" id="calcCalls" value="8" class="w-full bg-[#06070d] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-red-500">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-bold text-slate-400 block">المشاركة في الحوادث الكبرى والكوارث 10-90 (+25 نقطة لكل مشاركة):</label>
+                                <input type="number" id="calcMci" value="2" class="w-full bg-[#06070d] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-red-500">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold text-slate-400 block">ساعات شفتات الإسناد (+5 نقاط للساعة):</label>
+                                    <input type="number" id="calcShifts" value="4" class="w-full bg-[#06070d] border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-red-500">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[11px] font-bold text-red-400 block">إجمالي نقاط الخصم والجزاءات (إن وُجدت):</label>
+                                    <input type="number" id="calcPenalties" value="0" class="w-full bg-[#06070d] border border-red-900/40 rounded-xl px-3 py-2 text-xs text-red-400 font-mono focus:outline-none focus:border-red-500">
+                                </div>
+                            </div>
+                            <button onclick="processPromotionEngine()" class="w-full bg-amber-600 hover:bg-amber-700 text-slate-950 font-black text-xs py-3 rounded-xl transition-all shadow-lg font-bold">معالجة وحساب ملف جدارة العضو</button>
+                        </div>
+
+                        <div class="md:col-span-2 bg-[#06070d] border border-slate-800 p-5 rounded-xl flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <h5 class="text-xs font-black text-slate-300 border-b border-slate-800 pb-2">الملخص الرقمي لملف العضو</h5>
+                                <div class="space-y-2.5 text-xs font-semibold">
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-400">إجمالي النقاط المكتسبة:</span>
+                                        <span id="resTotalPoints" class="text-emerald-400 font-mono font-bold">0 نقطة</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-400">الرتبة المستحقة حالياً:</span>
+                                        <span id="resEligibleRank" class="text-white font-bold">Recruit</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="resRankNotice" class="text-[11px] text-amber-400 bg-amber-500/5 border border-amber-500/10 p-3 rounded-lg mt-4 leading-relaxed font-semibold">
+                                يرجى إدخال البيانات الميدانية والضغط على زر الحساب لبدء الفحص التلقائي للمؤهلات الجدارة.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <div id="page-workshops" class="page-content space-y-6">
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl">
+                    <div class="border-b border-slate-800 pb-4 mb-6">
+                        <h3 class="text-base font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-suitcase-medical text-red-500"></i> دليل العمليات الطبية التكتيكية وورش الإنعاش
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">الوصفات وسيناريوهات اللعب المعتمدة (RP Recipes) لإسعاف المصابين</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold">
+                        <div class="bg-[#101222] border border-slate-800 p-4 rounded-xl space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-white font-bold">إصابات طلقات ناري (GSW)</span>
+                                <span class="bg-red-500/10 text-red-400 px-2 py-0.5 rounded text-[10px] font-bold border border-red-500/20">كود 3 حرجة</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-400 leading-relaxed">
+                                <li>1. التحقق التام من خلو المنطقة من الخطر (Scene Safety).</li>
+                                <li>2. كتابة أمر: <span class="text-amber-400 font-mono">/me</span> يفحص ملابس العضو وموقع النزيف بدقة.</li>
+                                <li>3. استخدام الضماد الطبي والشاش المعقم لوقف النزيف ميكانيكياً.</li>
+                                <li>4. نقل المصاب وتفعيل بروتوكول التفريغ السريع.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-[#101222] border border-slate-800 p-4 rounded-xl space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-white font-bold">حوادث السير والكسور البليغة</span>
+                                <span class="bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded text-[10px] font-bold border border-amber-500/20">كود 2 متوسطة</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-400 leading-relaxed">
+                                <li>1. تأمين محيط الحادث بواسطة آليات الـ LSFD لحماية الفرقة.</li>
+                                <li>2. كتابة أمر: <span class="text-amber-400 font-mono">/me</span> يثبت رقبة وعنق المصاب بالطوق الطبي لمنع الشلل.</li>
+                                <li>3. تطبيق الجبائر الصلبة لتثبيت الأطراف المكسورة.</li>
+                                <li>4. حمل الحالة بالنقالة برفق شديد لداخل الإسعاف.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-[#101222] border border-slate-800 p-4 rounded-xl space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-white font-bold">إصابات الحروق والاختناق بالدخان</span>
+                                <span class="bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded text-[10px] font-bold border border-blue-500/20">استجابة طارئة</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-400 leading-relaxed">
+                                <li>1. سحب وإنقاذ المصاب فوراً خارج نطاق اللهب والدخان الكثيف.</li>
+                                <li>2. كتابة أمر: <span class="text-amber-400 font-mono">/me</span> يضع قناع الأكسجين الميكانيكي لتطهير الرئة.</li>
+                                <li>3. دهن مواضع الحروق بالمراهم والجيل المبرد والضماد المائي.</li>
+                                <li>4. مراقبة المؤشرات الحيوية بشكل مستمر أثناء نقل المريض.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
-        <!-- العمود الأيسر: تصفح الأقسام التفاعلية بالكامل -->
         <aside class="space-y-6 lg:col-span-1 order-1 lg:order-2">
-            <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-4 shadow-xl">
-                <span class="text-xs font-bold text-slate-400 tracking-wider block mb-3 px-2 text-right">أقسام البوابة الرسمية</span>
-                <nav class="space-y-1" id="sidebar-nav">
-                    <!-- الزر 1: الرئيسية والمؤشرات -->
-                    <button onclick="switchPage('page-main', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 bg-[#1c1f2f] border-r-4 border-red-500 text-red-400 font-bold text-xs transition-all text-right rounded-xl">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-chart-pie text-sm"></i> الرئيسية والمؤشرات</span>
-                        <i class="fa-solid fa-angle-left text-[10px]"></i>
+            <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-4 shadow-xl">
+                <span class="text-xs font-black text-slate-400 block mb-3 px-2">أقسام ومرافق النظام الرقمي</span>
+                <nav class="space-y-1">
+                    <button onclick="switchPage('page-main', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 bg-[#131526] border-r-4 border-red-500 text-red-400 font-bold text-xs rounded-xl transition-all">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-chart-pie text-sm"></i> الرئيسية والمؤشرات الحية</span>
+                        <i class="fa-solid fa-chevron-left text-[10px]"></i>
                     </button>
-                    <!-- الزر 2: الأدلة والبروتوكولات (SOP) -->
-                    <button onclick="switchPage('page-sop', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-shield-halved text-sm group-hover:text-red-400 transition-colors"></i> الأدلة والبروتوكولات (SOP)</span>
-                        <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
+                    <button onclick="switchPage('page-sop', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-book-shield text-sm group-hover:text-red-400 transition-colors"></i> الأدلة والـ SOP والتعاميم</span>
+                        <i class="fa-solid fa-chevron-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 3: الأكاديمية وبطاقة التقييم -->
-                    <button onclick="switchPage('page-academy', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-graduation-cap text-sm group-hover:text-red-400 transition-colors"></i> الأكاديمية وبطاقة التقييم</span>
-                        <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
+                    <button onclick="switchPage('page-academy', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-graduation-cap text-sm group-hover:text-red-400 transition-colors"></i> أكاديمية التدريب وبطاقة التقييم</span>
+                        <i class="fa-solid fa-chevron-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 4: كتالوج الراديو (Codes-10) -->
-                    <button onclick="switchPage('page-radio', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
+                    <button onclick="switchPage('page-radio', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-radio text-sm group-hover:text-red-400 transition-colors"></i> كتالوج الراديو (Codes-10)</span>
-                        <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
+                        <i class="fa-solid fa-chevron-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 5: الجزاءات وحساب الترقيات -->
-                    <button onclick="switchPage('page-promotions', this)" class="nav-btn-sanction w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-orange-400 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right border-orange-500">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-scale-balanced text-sm group-hover:text-orange-500 transition-colors"></i> الجزاءات وحساب الترقيات</span>
-                        <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
+                    <button onclick="switchPage('page-promotions', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-scale-balanced text-sm group-hover:text-red-400 transition-colors"></i> الجزاءات ومصفوفة الترقيات</span>
+                        <i class="fa-solid fa-chevron-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 6: ورش العمل والبروتوكولات -->
-                    <button onclick="switchPage('page-workshops', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
-                        <span class="flex items-center gap-3"><i class="fa-solid fa-screwdriver-wrench text-sm group-hover:text-red-400 transition-colors"></i> ورش العمل والبروتوكولات</span>
-                        <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
+                    <button onclick="switchPage('page-workshops', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-kit-medical text-sm group-hover:text-red-400 transition-colors"></i> ورش العمل والبروتوكولات</span>
+                        <i class="fa-solid fa-chevron-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
                 </nav>
             </div>
 
-            <!-- حالة تشغيل المستشفيات -->
-            <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-4 shadow-xl space-y-3 text-right">
-                <div class="flex items-center gap-2 text-red-400 font-bold text-xs">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
-                    <h3>حالة تشغيل المستشفيات</h3>
+            <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
+                <div class="flex items-center gap-2 text-red-500 font-bold text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                    <h3>مؤشر إشغال المستشفى الرئيسي</h3>
                 </div>
-                <p class="text-[11px] text-slate-400 leading-relaxed font-medium">
-                    بند الإسناد الطوعي والتبادلي في أجندة المستشفيات (MOH Transition) يعتبر إلزامياً على الوحدات الشاغرة عند الضغط الشديد.
+                <p class="text-[11px] text-slate-400 leading-relaxed font-semibold">
+                    يتم تفعيل بند الإسناد التبادلي الفوري لكافة الطواقم والفرق الشاغرة عند ارتفاع مؤشر الضغط والإشغال عن 75%.
                 </p>
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-[11px] font-bold">
-                        <span class="text-slate-400">نسبة الإشغال الإجمالية</span>
-                        <span class="text-red-400">33%</span>
+                <div class="space-y-1.5 pt-1">
+                    <div class="flex justify-between text-[11px] font-mono font-bold">
+                        <span class="text-slate-400">معدل الإشغال الإجمالي:</span>
+                        <span class="text-amber-400">45%</span>
                     </div>
-                    <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden border border-slate-700/30">
-                        <div class="bg-gradient-to-r from-red-500 to-amber-500 h-full rounded-full" style="width: 33%"></div>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-800">
+                        <div class="bg-gradient-to-r from-emerald-500 to-amber-500 h-full rounded-full" style="width: 45%"></div>
                     </div>
                 </div>
             </div>
@@ -443,115 +585,130 @@
 
     </main>
 
-    <!-- فوتر النظام -->
-    <footer class="border-t border-slate-800/60 bg-[#0c0d14] px-6 py-4 text-center text-slate-500 text-[11px] font-medium mt-auto">
-        جميع الحقوق محفوظة لمنظومة الدفاع والإنقاذ بـ لوس سانتوس © 2026.
+    <footer class="border-t border-slate-800/80 bg-[#05060b] px-6 py-4 text-center text-slate-500 text-[11px] font-bold mt-auto">
+        البوابة المركزية الإلكترونية الموحدة لعمليات لوس سانتوس للإطفاء والإنقاذ © 2026.
     </footer>
 
-    <!-- سكريبت تبديل الصفحات الفوري والتوجيهات البرمجية التفاعلية -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            function updateClock() {
-                const now = new Date();
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-                const liveTimeEl = document.getElementById('liveTime');
-                if (liveTimeEl) {
-                    liveTimeEl.innerText = `${hours}:${minutes}:${seconds}`;
-                }
-            }
-            setInterval(updateClock, 1000);
-            updateClock();
-        });
-
-        // دالة التبديل الشاملة بين الصفحات
+        // 1. نظام التنقل الفوري الكامل بين الصفحات والأقسام
         function switchPage(pageId, btnElement) {
             const pages = document.querySelectorAll('.page-content');
             pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
 
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-
-            // إعادة تعيين ستايل جميع الأزرار العادية والجزاءات
-            const buttons = document.querySelectorAll('.nav-btn, .nav-btn-sanction');
+            const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => {
-                btn.className = "w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right nav-btn";
-                if(btn.classList.contains('nav-btn-sanction')) {
-                    btn.className = "nav-btn-sanction w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-orange-400 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right border-orange-500";
-                }
-                const arrow = btn.querySelector('.fa-angle-left');
-                if (arrow) arrow.classList.add('opacity-0', 'group-hover:opacity-100');
+                btn.className = "nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group";
+                const arrow = btn.querySelector('.fa-chevron-left');
+                if (arrow) arrow.classList.add('opacity-0');
             });
 
-            // تفعيل الزر الذي تم الضغط عليه
             if (btnElement) {
-                if (btnElement.classList.contains('nav-btn-sanction')) {
-                    btnElement.classList.add('active-sanction');
-                } else {
-                    btnElement.className = "nav-btn w-full flex items-center justify-between px-4 py-3 bg-[#1c1f2f] border-r-4 border-red-500 text-red-400 font-bold text-xs transition-all text-right rounded-xl";
-                }
-                const activeArrow = btnElement.querySelector('.fa-angle-left');
-                if (activeArrow) activeArrow.classList.remove('opacity-0', 'group-hover:opacity-100');
+                btnElement.className = "nav-btn w-full flex items-center justify-between px-4 py-3 bg-[#131526] border-r-4 border-red-500 text-red-400 font-bold text-xs rounded-xl transition-all group";
+                const activeArrow = btnElement.querySelector('.fa-chevron-left');
+                if (activeArrow) activeArrow.classList.remove('opacity-0');
             }
         }
 
-        // تبديل تبويبات كتالوج الراديو الداخلية
-        function switchRadioTab(tabId, btnElement) {
-            const contents = document.querySelectorAll('.radio-tab-content');
-            contents.forEach(content => content.classList.remove('active'));
+        // 2. نظام التبديل للتبويبات الفرعية الخاصة بأدلة الـ SOP
+        function switchSubTab(tabId, btnElement) {
+            const contents = document.querySelectorAll('.sub-tab-content');
+            contents.forEach(c => c.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
 
-            const buttons = document.querySelectorAll('.radio-tab-btn');
-            buttons.forEach(btn => {
-                btn.className = "radio-tab-btn text-slate-400 hover:text-white text-[11px] font-bold px-3 py-1.5 rounded-md transition-all";
+            const buttons = document.querySelectorAll('.sop-tab-btn');
+            buttons.forEach(b => b.className = "sop-tab-btn bg-slate-900 text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all");
+            btnElement.className = "sop-tab-btn bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all shadow-md shadow-red-600/10";
+        }
+
+        // 3. محرك الفلترة والتصفية الحية لكود الراديو اللاسلكي
+        function filterCodes(category, btnElement) {
+            const cards = document.querySelectorAll('.radio-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-cat') === category) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
             });
-            btnElement.className = "radio-tab-btn bg-slate-800/80 text-white text-[11px] font-bold px-3 py-1.5 rounded-md transition-all";
+
+            const buttons = document.querySelectorAll('.code-filter-btn');
+            buttons.forEach(b => b.className = "code-filter-btn text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all");
+            btnElement.className = "code-filter-btn bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all";
         }
 
-        // حساب تقييم المتدرب التفاعلي (الأكاديمية)
-        function calculateTraineeScore() {
-            const name = document.getElementById('traineeName').value || 'متدرب مستجد';
-            const s1 = parseInt(document.getElementById('score1').value);
-            const s2 = parseInt(document.getElementById('score2').value);
-            const total = s1 + s2;
+        // 4. محرك حساب نموذج رصد تقييم المتدربين بالأكاديمية (إصلاح شامل)
+        function processAcademyEvaluation() {
+            const name = document.getElementById('traineeName').value || 'فهد العتيبي';
+            const instructor = document.getElementById('instructorName').value || 'Lieutenant';
             
-            document.getElementById('resTraineeName').innerText = name;
-            document.getElementById('resTraineeScore').innerText = `${total} / 10`;
-            
-            const statusEl = document.getElementById('resTraineeStatus');
-            if (total >= 8) {
+            const sDrive = parseInt(document.getElementById('scoreDrive').value) || 0;
+            const sSop = parseInt(document.getElementById('scoreSop').value) || 0;
+            const sEms = parseInt(document.getElementById('scoreEms').value) || 0;
+            const sRadio = parseInt(document.getElementById('scoreRadio').value) || 0;
+
+            const totalScore = sDrive + sSop + sEms + sRadio;
+            const percentage = (totalScore / 20) * 100;
+
+            document.getElementById('resName').innerText = name;
+            document.getElementById('resInstructor').innerText = instructor;
+            document.getElementById('resPoints').innerText = `${totalScore} / 20 درجة`;
+            document.getElementById('resPercent').innerText = `${percentage}%`;
+
+            const statusEl = document.getElementById('resStatus');
+            if (percentage >= 70) {
                 statusEl.innerText = 'مؤهل للميدان (ناجح)';
-                statusEl.className = 'text-emerald-400 font-bold';
+                statusEl.className = 'bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 rounded-lg border border-emerald-500/20 text-[11px] font-bold';
             } else {
-                statusEl.innerText = 'إعادة تدريب (راسب)';
-                statusEl.className = 'text-red-400 font-bold';
+                statusEl.innerText = 'إعادة تأهيل (راسب)';
+                statusEl.className = 'bg-red-500/10 text-red-400 px-2.5 py-0.5 rounded-lg border border-red-500/20 text-[11px] font-bold';
             }
-            document.getElementById('traineeResultCard').classList.remove('hidden');
         }
 
-        // حاسبة الترقيات التفاعلية
-        function calculatePromotion() {
-            const hours = parseInt(document.getElementById('fieldHours').value) || 0;
-            const reports = parseInt(document.getElementById('reportsCount').value) || 0;
-            const totalPoints = (hours * 10) + (reports * 15);
+        // 5. محرك حاسبة الترقية واستخراج الجدارة مخصوماً منها العقوبات
+        function processPromotionEngine() {
+            const calls = parseInt(document.getElementById('calcCalls').value) || 0;
+            const mci = parseInt(document.getElementById('calcMci').value) || 0;
+            const shifts = parseInt(document.getElementById('calcShifts').value) || 0;
+            const penalties = parseInt(document.getElementById('calcPenalties').value) || 0;
+
+            // احتساب إجمالي النقاط مخصوماً منها المخالفات
+            let grandTotal = (calls * 10) + (mci * 25) + (shifts * 5) - penalties;
+            if (grandTotal < 0) grandTotal = 0;
+
+            document.getElementById('resTotalPoints').innerText = `${grandTotal} نقطة`;
+
+            const rankEl = document.getElementById('resEligibleRank');
+            const noticeEl = document.getElementById('resRankNotice');
             
-            let rank = 'EMS Recruit (مستجد)';
-            if (totalPoints >= 150) rank = 'Captain (نقيب ميداني)';
-            else if (totalPoints >= 100) rank = 'Lieutenant (ملازم أول)';
-            else if (totalPoints >= 50) rank = 'Paramedic II (أخصائي)';
+            let targetRank = 'Recruit (مستجد)';
 
-            document.getElementById('promoDetails').innerHTML = `
-                <p>• إجمالي النقاط المحسوبة: <span class="text-emerald-400 font-bold">${totalPoints} نقطة</span></p>
-                <p>• الرتبة المستهدفة المقترحة: <span class="text-amber-400 font-bold">${rank}</span></p>
-            `;
+            if (grandTotal >= 120) {
+                targetRank = 'Captain (نقيب فرقة)';
+                noticeEl.className = "text-[11px] text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 p-3 rounded-lg mt-4 leading-relaxed font-semibold";
+                noticeEl.innerText = "مبروك! تم استيفاء كافة المتطلبات والجدارة لرفع ملف الترقية الفورية لاعتماد الرتبة الأعلى من القيادة العليا.";
+            } else if (grandTotal >= 60) {
+                targetRank = 'Lieutenant (ملازم أول)';
+                noticeEl.className = "text-[11px] text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 p-3 rounded-lg mt-4 leading-relaxed font-semibold";
+                noticeEl.innerText = "مبروك! تم استيفاء كافة المتطلبات والجدارة لرفع ملف الترقية الفورية لاعتماد الرتبة الأعلى من القيادة العليا.";
+            } else if (grandTotal >= 15) {
+                targetRank = 'Paramedic II (أخصائي)';
+                noticeEl.className = "text-[11px] text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 p-3 rounded-lg mt-4 leading-relaxed font-semibold";
+                noticeEl.innerText = "مبروك! تم استيفاء كافة المتطلبات والجدارة لرفع ملف الترقية الفورية لاعتماد الرتبة الأعلى من القيادة العليا.";
+            } else {
+                targetRank = 'Recruit (مستجد)';
+                noticeEl.className = "text-[11px] text-amber-400 bg-amber-500/5 border border-amber-500/10 p-3 rounded-lg mt-4 leading-relaxed font-semibold";
+                noticeEl.innerText = "الملف تحت التأهيل: نقاط الجدارة أقل من الحد الأدنى المطلوب للترقية (15 نقطة)، يرجى تفعيل بند الإسناد وإنهاء الحالات.";
+            }
+
+            rankEl.innerText = targetRank;
         }
 
-        function logout() {
-            window.location.href = 'index.html';
-        }
+        // تشغيل تمهيدي فوري عند تحميل الصفحة لتهيئة البيانات
+        window.onload = function() {
+            processAcademyEvaluation();
+            processPromotionEngine();
+        };
     </script>
 </body>
 </html>
