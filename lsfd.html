@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>النظام الرقمي الموحد | Los Santos Fire Department</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #06070d; }
@@ -40,7 +40,7 @@
                 حالة النظام: متصل بالعمليات
             </div>
             <div class="bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-300">
-                ساعة النوبة: <span id="liveClock" class="text-red-500 font-mono">03:28:12</span>
+                ساعة النوبة: <span id="liveClock" class="text-red-500 font-mono">00:00:00</span>
             </div>
         </div>
     </header>
@@ -49,6 +49,7 @@
         
         <section class="lg:col-span-3 space-y-6 order-2 lg:order-1">
             
+            <!-- الرئيسية -->
             <div id="page-main" class="page-content active space-y-6">
                 <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute -right-10 -bottom-10 text-slate-800/10 text-9xl font-black select-none pointer-events-none">LSFD</div>
@@ -87,6 +88,7 @@
                 </div>
             </div>
 
+            <!-- SOP -->
             <div id="page-sop" class="page-content space-y-6">
                 <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-4 mb-6 gap-4">
@@ -176,6 +178,7 @@
                 </div>
             </div>
 
+            <!-- الأكاديمية -->
             <div id="page-academy" class="page-content space-y-6">
                 <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
                     <div class="border-b border-slate-800 pb-4">
@@ -268,13 +271,14 @@
                                 <div class="flex justify-between items-center"><span>قرار اللجنة:</span> <span id="resStatus" class="bg-slate-800 text-slate-400 px-2 py-0.5 rounded text-[11px] font-bold">بانتظار الحساب</span></div>
                             </div>
                             <div class="text-[10px] text-slate-500 leading-relaxed border-t border-slate-800/80 pt-3">
-                                <strong class="text-slate-400">ملاحظة تنظيمية:</strong> درجة النجاح الدنيا هي 70% (14 درجة فما فوق). يحق لمن يحصل على نتيجة "إعادة تأهيل" التقدم مجدداً بعد مرور 24 ساعة من تاريخ رصد المخالفة أو الإخفاق.
+                                <strong class="text-slate-400">ملاحظة تنظيمية:</strong> درجة النجاح الدنيا هي 70% (14 درجة فما فوق). يحق لمن يحصل على نتيجة "إعادة تأهيل" التقدم مجدداً بعد مرور 24 ساعة.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- الراديو -->
             <div id="page-radio" class="page-content space-y-6">
                 <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl">
                     <div class="border-b border-slate-800 pb-4 mb-6">
@@ -380,6 +384,7 @@
                 </div>
             </div>
 
+            <!-- الجزاءات والترقيات -->
             <div id="page-promotions" class="page-content space-y-6">
                 <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
                     <div class="border-b border-slate-800 pb-3">
@@ -478,6 +483,7 @@
                 </div>
             </div>
 
+            <!-- ورش العمل -->
             <div id="page-workshops" class="page-content space-y-6">
                 <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl">
                     <div class="border-b border-slate-800 pb-4 mb-6">
@@ -530,6 +536,25 @@
                 </div>
             </div>
 
+            <!-- *** قاعدة البيانات (الجديدة) *** -->
+            <div id="page-data" class="page-content space-y-6">
+                <div class="bg-[#0b0c16] border border-slate-800 rounded-2xl p-6 shadow-xl">
+                    <div class="border-b border-slate-800 pb-4 mb-6">
+                        <h3 class="text-base font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-database text-red-500"></i> سجل البيانات المحدث
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">قاعدة بيانات الأعضاء والسجلات الميدانية المتصلة بالنظام المركزي</p>
+                    </div>
+                    <div class="bg-white rounded-xl overflow-hidden border border-slate-700">
+                        <iframe 
+                            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8PGYWzptkr8tz_GwDa0acWJpL8LX6ZV6EtlOXw0bQvS3MfuVP6DAVYvbafkqiKoaOH7ez5Nu6MS5g/pubhtml" 
+                            style="width:100%; height:75vh; border:none;"
+                            title="سجل البيانات">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <aside class="space-y-6 lg:col-span-1 order-1 lg:order-2">
@@ -558,6 +583,11 @@
                     </button>
                     <button onclick="switchPage('page-workshops', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-kit-medical text-sm group-hover:text-red-400 transition-colors"></i> ورش العمل والبروتوكولات</span>
+                        <i class="fa-solid fa-chevron-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
+                    </button>
+                    <!-- زر قاعدة البيانات الجديد -->
+                    <button onclick="switchPage('page-data', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group">
+                        <span class="flex items-center gap-3"><i class="fa-solid fa-database text-sm group-hover:text-red-400 transition-colors"></i> قاعدة البيانات</span>
                         <i class="fa-solid fa-chevron-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
                 </nav>
@@ -590,14 +620,23 @@
     </footer>
 
     <script>
-        // 1. نظام التنقل الفوري الكامل بين الصفحات والأقسام
+        // ساعة حية
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2,'0');
+            const m = String(now.getMinutes()).padStart(2,'0');
+            const s = String(now.getSeconds()).padStart(2,'0');
+            document.getElementById('liveClock').textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // التنقل بين الصفحات
         function switchPage(pageId, btnElement) {
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
 
-            const buttons = document.querySelectorAll('.nav-btn');
-            buttons.forEach(btn => {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.className = "nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/20 rounded-xl text-xs font-bold transition-all group";
                 const arrow = btn.querySelector('.fa-chevron-left');
                 if (arrow) arrow.classList.add('opacity-0');
@@ -610,51 +649,41 @@
             }
         }
 
-        // 2. نظام التبديل للتبويبات الفرعية الخاصة بأدلة الـ SOP
+        // التبويبات الفرعية
         function switchSubTab(tabId, btnElement) {
-            const contents = document.querySelectorAll('.sub-tab-content');
-            contents.forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-
-            const buttons = document.querySelectorAll('.sop-tab-btn');
-            buttons.forEach(b => b.className = "sop-tab-btn bg-slate-900 text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all");
+            document.querySelectorAll('.sop-tab-btn').forEach(b => b.className = "sop-tab-btn bg-slate-900 text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all");
             btnElement.className = "sop-tab-btn bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all shadow-md shadow-red-600/10";
         }
 
-        // 3. محرك الفلترة والتصفية الحية لكود الراديو اللاسلكي
+        // فلتر أكواد الراديو
         function filterCodes(category, btnElement) {
-            const cards = document.querySelectorAll('.radio-card');
-            cards.forEach(card => {
+            document.querySelectorAll('.radio-card').forEach(card => {
                 if (category === 'all' || card.getAttribute('data-cat') === category) {
                     card.classList.add('active');
                 } else {
                     card.classList.remove('active');
                 }
             });
-
-            const buttons = document.querySelectorAll('.code-filter-btn');
-            buttons.forEach(b => b.className = "code-filter-btn text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all");
+            document.querySelectorAll('.code-filter-btn').forEach(b => b.className = "code-filter-btn text-slate-400 hover:text-white font-bold text-xs px-4 py-2 rounded-lg transition-all");
             btnElement.className = "code-filter-btn bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all";
         }
 
-        // 4. محرك حساب نموذج رصد تقييم المتدربين بالأكاديمية (إصلاح شامل)
+        // حساب تقييم الأكاديمية
         function processAcademyEvaluation() {
             const name = document.getElementById('traineeName').value || 'فهد العتيبي';
             const instructor = document.getElementById('instructorName').value || 'Lieutenant';
-            
             const sDrive = parseInt(document.getElementById('scoreDrive').value) || 0;
             const sSop = parseInt(document.getElementById('scoreSop').value) || 0;
             const sEms = parseInt(document.getElementById('scoreEms').value) || 0;
             const sRadio = parseInt(document.getElementById('scoreRadio').value) || 0;
-
             const totalScore = sDrive + sSop + sEms + sRadio;
             const percentage = (totalScore / 20) * 100;
-
             document.getElementById('resName').innerText = name;
             document.getElementById('resInstructor').innerText = instructor;
             document.getElementById('resPoints').innerText = `${totalScore} / 20 درجة`;
             document.getElementById('resPercent').innerText = `${percentage}%`;
-
             const statusEl = document.getElementById('resStatus');
             if (percentage >= 70) {
                 statusEl.innerText = 'مؤهل للميدان (ناجح)';
@@ -665,24 +694,18 @@
             }
         }
 
-        // 5. محرك حاسبة الترقية واستخراج الجدارة مخصوماً منها العقوبات
+        // حاسبة الترقيات
         function processPromotionEngine() {
             const calls = parseInt(document.getElementById('calcCalls').value) || 0;
             const mci = parseInt(document.getElementById('calcMci').value) || 0;
             const shifts = parseInt(document.getElementById('calcShifts').value) || 0;
             const penalties = parseInt(document.getElementById('calcPenalties').value) || 0;
-
-            // احتساب إجمالي النقاط مخصوماً منها المخالفات
             let grandTotal = (calls * 10) + (mci * 25) + (shifts * 5) - penalties;
             if (grandTotal < 0) grandTotal = 0;
-
             document.getElementById('resTotalPoints').innerText = `${grandTotal} نقطة`;
-
             const rankEl = document.getElementById('resEligibleRank');
             const noticeEl = document.getElementById('resRankNotice');
-            
             let targetRank = 'Recruit (مستجد)';
-
             if (grandTotal >= 120) {
                 targetRank = 'Captain (نقيب فرقة)';
                 noticeEl.className = "text-[11px] text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 p-3 rounded-lg mt-4 leading-relaxed font-semibold";
@@ -700,11 +723,9 @@
                 noticeEl.className = "text-[11px] text-amber-400 bg-amber-500/5 border border-amber-500/10 p-3 rounded-lg mt-4 leading-relaxed font-semibold";
                 noticeEl.innerText = "الملف تحت التأهيل: نقاط الجدارة أقل من الحد الأدنى المطلوب للترقية (15 نقطة)، يرجى تفعيل بند الإسناد وإنهاء الحالات.";
             }
-
             rankEl.innerText = targetRank;
         }
 
-        // تشغيل تمهيدي فوري عند تحميل الصفحة لتهيئة البيانات
         window.onload = function() {
             processAcademyEvaluation();
             processPromotionEngine();
