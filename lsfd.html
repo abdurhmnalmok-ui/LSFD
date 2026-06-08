@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البوابة الرسمية الشاملة | Los Santos Fire Department</title>
-    <!-- Tailwind CSS -->
+    <title>البوابة الرسمية | Los Santos Fire Department</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { font-family: 'Cairo', sans-serif; }
@@ -22,7 +19,6 @@
 </head>
 <body class="bg-[#0f111a] text-slate-100 min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
 
-    <!-- الهيدر العلوي الرئيسي للوحة التحكم -->
     <header class="border-b border-slate-800/60 bg-[#141724]/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
         <div class="flex items-center gap-4">
             <div class="bg-red-500/10 p-2.5 border border-red-500/20 rounded-xl flex items-center justify-center">
@@ -49,15 +45,11 @@
         </div>
     </header>
 
-    <!-- المحتوى الداخلي المقسم بناءً على التصميم المعتمد -->
     <main class="flex-1 max-w-[1600px] w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
         
-        <!-- القسم الأيمن العريض (يحتوي على الصفحات المتغيرة تلقائياً) -->
         <section class="lg:col-span-3 space-y-6 order-2 lg:order-1">
             
-            <!-- 1. صفحة الرئيسية والمؤشرات (تظهر تلقائياً عند الدخول) -->
             <div id="page-main" class="page-content active space-y-6">
-                <!-- لوحة المؤشر الرئيسي والوحدات الشاغرة حالياً -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-5 shadow-xl flex items-center justify-between">
                         <div class="space-y-1 text-right">
@@ -84,7 +76,6 @@
                     </div>
                 </div>
 
-                <!-- بطاقة القرار والاعتماد الفوري -->
                 <div class="bg-gradient-to-r from-amber-600/10 via-amber-600/5 to-transparent border border-amber-600/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
                     <div class="flex items-center gap-3.5">
                         <div class="bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-xl text-amber-500 text-xl flex items-center justify-center">
@@ -100,7 +91,6 @@
                     </button>
                 </div>
 
-                <!-- قسم أجندة التحول البرمجي الميداني -->
                 <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-5 shadow-xl space-y-4">
                     <div class="flex justify-between items-center border-b border-slate-800/60 pb-3">
                         <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
@@ -133,7 +123,6 @@
                     </div>
                 </div>
 
-                <!-- توجيه القيادة العليا -->
                 <div class="bg-red-500/5 border border-red-500/15 rounded-2xl p-4 flex gap-3 text-right">
                     <div class="text-red-500 text-lg mt-0.5 shrink-0"><i class="fa-solid fa-circle-exclamation"></i></div>
                     <div class="space-y-1">
@@ -145,76 +134,81 @@
                 </div>
             </div>
 
-            <!-- 2. صفحة الأدلة والبروتوكولات (SOP) -->
             <div id="page-sop" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4 text-right">
                 <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
                     <i class="fa-solid fa-shield-halved text-red-500"></i> الأدلة والبروتوكولات (SOP)
                 </h3>
                 <div class="space-y-4 text-sm text-slate-300">
-                    <p class="font-bold text-amber-400">بروتوكولات الاستجابة والتشغيل الميداني المعتمدة للقطاع:</p>
+                    <p class="font-bold text-amber-400">دليل الإجراءات التشغيلية القياسية الموحد:</p>
                     <ul class="list-disc list-inside space-y-3 text-xs text-slate-400 leading-relaxed">
-                        <li>الأولوية لإنقاذ الأرواح وتأمين مسرح الحادث قبل البدء في عمليات فرز الحالات (Triage).</li>
-                        <li>يجب الالتزام بمسافة الأمان اللازمة لمركبات الإسعاف والإطفاء عند التواجد في مواقع إطلاق النار.</li>
-                        <li>آلية فرض السيطرة على مواقع الحوادث الكبرى والتعامل مع الحرائق الهيكلية الكبيرة.</li>
-                        <li>تنظيم نطاق القيادة والسيطرة عند التداخل الميداني المشترك مع الجهات الأمنية الأخرى (LSPD / FBI).</li>
+                        <li>حفظ حياة المصابين والرهائن وتأمين محيط الحادث هي الركيزة الأساسية للعمليات.</li>
+                        <li>يمنع دخول سيارات الإسعاف أو الإنقاذ إلى مسرح الجريمة النشط إلا بعد تطهيره وتأمينه بالكامل من الـ LSPD.</li>
+                        <li>توثيق جميع الحالات الطبية الحرجة وسيناريوهات الفرز (Triage) لاسلكياً لضمان الدعم اللوجستي الفوري.</li>
+                        <li>الالتزام الكامل بمسارات الإخلاء الطبي المعتمدة لضمان سرعة نقل المصابين وتفعيل بروتوكول الـ Drop-and-Go.</li>
                     </ul>
                 </div>
+                <button onclick="switchPage('page-main')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all">العودة للرئيسية</button>
             </div>
 
-            <!-- 3. صفحة الأكاديمية وبطاقة التقييم -->
             <div id="page-academy" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4 text-right">
                 <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
                     <i class="fa-solid fa-graduation-cap text-red-500"></i> الأكاديمية وبطاقة التقييم
                 </h3>
-                <p class="text-sm text-slate-300 leading-relaxed">نظام تقييم ومتابعة أداء الأفراد والضباط لضمان جاهزية الاستجابة الميدانية والامتثال التام لقواعد المنظومة:</p>
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-2 max-w-md">
-                    <p>• سرعة الاستجابة وتلبية البلاغات الطارئة: <span class="text-emerald-400 font-bold">9.5 / 10</span></p>
-                    <p>• احترافية التعامل مع السيناريوهات الطبية (E-PCR): <span class="text-emerald-400 font-bold">ممتاز</span></p>
-                    <p>• الامتثال الكامل للنداءات والرموز والتوجيهات اللاسلكية: <span class="text-emerald-400 font-bold">100%</span></p>
+                <p class="text-sm text-slate-300 leading-relaxed">بوابة رصد الأداء التدريبي وبطاقات الكفاءة الميدانية لمنتسبي قطاع الإطفاء والإنقاذ:</p>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs text-slate-400 space-y-2.5 max-w-lg font-medium">
+                    <p>• سرعة الاستجابة والوصول لمواقع الحوادث: <span class="text-emerald-400 font-bold">9.7 / 10</span></p>
+                    <p>• مهارات استخدام معدات الإنقاذ وأجهزة التنفس: <span class="text-emerald-400 font-bold">ممتاز</span></p>
+                    <p>• إعداد تقارير الحالات الطبية والـ E-PCR الميداني: <span class="text-emerald-400 font-bold">جاهزية كاملة</span></p>
+                    <p>• الانضباط الإداري العسكري والامتثال لسلسلة الأوامر الرتبوية: <span class="text-emerald-400 font-bold">100%</span></p>
                 </div>
+                <button onclick="switchPage('page-main')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all">العودة للرئيسية</button>
             </div>
 
-            <!-- 4. صفحة كتالوج الراديو (Codes-10) -->
             <div id="page-radio" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4 text-right">
                 <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-radio text-red-500"></i> كتالوج الراديو (Codes-10)
+                    <i class="fa-solid fa-radio text-red-500"></i> كتالوج الراديو والرموز (Codes-10)
                 </h3>
-                <p class="text-xs text-slate-400 mb-2">أبرز الأكواد والرموز المعتمدة في التخاطب اللاسلكي للـ LSFD لتسريع وتيرة البلاغات:</p>
+                <p class="text-xs text-slate-400 mb-2">الدليل الرسمي للتخاطب اللاسلكي الموحد لتسريع تبادل البلاغات بين الوحدات والعمليات:</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300 font-mono">
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-4:</span> مفهوم واستلمت الأمر</div>
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-8:</span> وحدة متاحة وفي الخدمة بالميدان</div>
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-7:</span> الوحدة خارج الخدمة مؤقتاً</div>
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-20:</span> تحديد وإرسال الموقع الحالي</div>
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">Code 2:</span> استجابة اعتيادية بدون صفارات إنذار</div>
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">Code 3:</span> استجابة طارئة قصوى بصفارات الإنذار والأضواء</div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-4:</span> مفهوم واستلمت الأمر بالكامل</div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-8:</span> الوحدة متاحة ميدانياً وفي الخدمة</div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-7:</span> الوحدة خارج الخدمة أو غير متاحة</div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">10-20:</span> تحديد الموقع الميداني الحالي بدقة</div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">Code 2:</span> استجابة روتينية سريعة (بدون صفارات)</div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-red-400 font-bold ml-1">Code 3:</span> استجابة طارئة عاجلة بصفارات الإنذار والأضواء</div>
                 </div>
+                <button onclick="switchPage('page-main')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all mt-4">العودة للرئيسية</button>
             </div>
 
-            <!-- 5. صفحة الجزاءات وحساب الترقيات -->
             <div id="page-promotions" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4 text-right">
                 <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
                     <i class="fa-solid fa-scale-balanced text-red-500"></i> الجزاءات وحساب الترقيات
                 </h3>
-                <p class="text-xs text-slate-400 leading-relaxed">تخضع كافة الكوادر الميدانية للائحة التنظيمية الجديدة بعد الانتقال والترسيم على سلك وزارة الداخلية الموحد:</p>
-                <div class="space-y-3 max-w-2xl">
+                <p class="text-xs text-slate-400 leading-relaxed">القواعد التنظيمية المنضبطة لاحتساب النقاط الدورية بعد اعتماد الهوية العسكرية الرسمية:</p>
+                <div class="space-y-3 max-w-3xl">
                     <div class="p-3.5 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl font-semibold">
-                        ⚠️ تنبيه إداري: مخالفة توجيهات الراديو أو الـ SOP تعرض الفرد مباشرة لتجميد نقاط الترقية والحسم التلقائي.
+                        ⚠️ بند المخالفات: تعمد تجاهل نداءات الراديو، أو مخالفة تعليمات الـ SOP، أو مغادرة الموقع بدون إذن يعرض الفرد للحسم المباشر وتجميد الترقية.
                     </div>
                     <div class="p-3.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs rounded-xl font-semibold">
-                        ✓ نظام الحساب الفوري: إتمام الساعات الميدانية والمشاركة بالسيناريوهات يرفع نقاط ترشيحك للرتب العليا تلقائياً.
+                        ✓ آلية احتساب الترقيات: يتم جمع ساعات التواجد الميداني الفعلي وتوثيق البلاغات الناجحة لرفع الفرد تلقائياً للرتبة التالية بناءً على الكفاءة والانضباط.
                     </div>
                 </div>
+                <button onclick="switchPage('page-main')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all mt-2">العودة للرئيسية</button>
             </div>
 
-            <!-- 6. صفحة ورش العمل والبروتوكولات -->
             <div id="page-workshops" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4 text-right">
                 <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
                     <i class="fa-solid fa-screwdriver-wrench text-red-500"></i> ورش العمل والبروتوكولات
                 </h3>
-                <p class="text-sm text-slate-300 leading-relaxed">جدول ورش العمل التدريبية والمناورات المشتركة القادمة لرفع كفاءة الأفراد في التعامل مع آليات الإنقاذ الثقيلة، التدريب على الحرائق الكبرى، وبروتوكولات فرز الإصابات المتقدمة.</p>
+                <p class="text-sm text-slate-300 leading-relaxed">جدول المناورات التدريبية الميدانية والورش التطويرية الدورية:</p>
+                <ul class="list-disc list-inside space-y-3 text-xs text-slate-400 leading-relaxed">
+                    <li>ورشة عمل آلية التعامل مع حرائق الطائرات والمروحيات في مطار لوس سانتوس الدولي.</li>
+                    <li>تدريبات محاكاة مشتركة مع قطاعات الـ LSPD والـ FBI للتعامل مع سيناريوهات الكوارث والرهائن.</li>
+                    <li>بروتوكولات الإخلاء الطبي السريع واستخدام الرافعات الثقيلة في حوادث الطرق السريعة.</li>
+                </ul>
+                <button onclick="switchPage('page-main')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-all mt-2">العودة للرئيسية</button>
             </div>
 
-            <!-- 7. صفحة وثيقة القرار والترسيم الاعتمادي -->
             <div id="page-decision" class="page-content bg-[#141724] border border-slate-800/80 rounded-2xl p-6 shadow-xl space-y-4 text-right">
                 <h3 class="text-lg font-bold text-amber-500 border-b border-slate-800 pb-3 flex items-center gap-2">
                     <i class="fa-solid fa-file-signature"></i> وثيقة قرار الترسيم والتحول الاستراتيجي
@@ -229,37 +223,30 @@
             </div>
         </section>
 
-        <!-- العمود الأيسر: تصفح الأقسام التفاعلية بالكامل (مطابق للفيديو 100%) -->
         <aside class="space-y-6 lg:col-span-1 order-1 lg:order-2">
             <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-4 shadow-xl">
                 <span class="text-xs font-bold text-slate-400 tracking-wider block mb-3 px-2 text-right">أقسام البوابة الرسمية</span>
                 <nav class="space-y-1" id="sidebar-nav">
-                    <!-- الزر 1 -->
                     <button onclick="switchPage('page-main', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 bg-[#1c1f2f] border-r-4 border-red-500 text-red-400 font-bold text-xs transition-all text-right rounded-xl">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-chart-pie text-sm"></i> الرئيسية والمؤشرات</span>
                         <i class="fa-solid fa-angle-left text-[10px]"></i>
                     </button>
-                    <!-- الزر 2 -->
                     <button onclick="switchPage('page-sop', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-shield-halved text-sm group-hover:text-red-400 transition-colors"></i> الأدلة والبروتوكولات (SOP)</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 3 -->
                     <button onclick="switchPage('page-academy', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-graduation-cap text-sm group-hover:text-red-400 transition-colors"></i> الأكاديمية وبطاقة التقييم</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 4 -->
                     <button onclick="switchPage('page-radio', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-radio text-sm group-hover:text-red-400 transition-colors"></i> كتالوج الراديو (Codes-10)</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 5 -->
                     <button onclick="switchPage('page-promotions', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-scale-balanced text-sm group-hover:text-red-400 transition-colors"></i> الجزاءات وحساب الترقيات</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
                     </button>
-                    <!-- الزر 6 -->
                     <button onclick="switchPage('page-workshops', this)" class="nav-btn w-full flex items-center justify-between px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 rounded-xl text-xs font-semibold transition-all group text-right">
                         <span class="flex items-center gap-3"><i class="fa-solid fa-screwdriver-wrench text-sm group-hover:text-red-400 transition-colors"></i> ورش العمل والبروتوكولات</span>
                         <i class="fa-solid fa-angle-left text-[10px] opacity-0 group-hover:opacity-100 transition-all"></i>
@@ -267,7 +254,6 @@
                 </nav>
             </div>
 
-            <!-- حالة تشغيل المستشفيات -->
             <div class="bg-[#141724] border border-slate-800/80 rounded-2xl p-4 shadow-xl space-y-3 text-right">
                 <div class="flex items-center gap-2 text-red-400 font-bold text-xs">
                     <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
@@ -290,12 +276,10 @@
 
     </main>
 
-    <!-- فوتر النظام -->
     <footer class="border-t border-slate-800/60 bg-[#0c0d14] px-6 py-4 text-center text-slate-500 text-[11px] font-medium mt-auto">
         جميع الحقوق محفوظة لمنظومة الدفاع والإنقاذ بـ لوس سانتوس © 2026.
     </footer>
 
-    <!-- سكريبت تبديل الصفحات الفوري والتوقيت الحقيقي للعمليات -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function updateClock() {
