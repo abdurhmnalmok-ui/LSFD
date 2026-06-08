@@ -3,75 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #06070d; color: white; }
-        .page-content { display: none; }
-        .page-content.active { display: block; }
-        .nav-btn.active { background-color: #dc2626; color: white; }
-    </style>
+    <style>body { font-family: sans-serif; background-color: #06070d; color: white; }</style>
 </head>
-<body>
-
-    <!-- 1. صفحة تسجيل الدخول -->
-    <div id="login-page" class="flex items-center justify-center min-h-screen">
-        <div class="bg-[#0b0c16] p-8 rounded-2xl border border-slate-800 w-96 text-center">
-            <h2 class="text-2xl font-black mb-6 text-red-500">دخول قيادة LSFD</h2>
-            <input type="text" id="username" placeholder="اسم المستخدم" class="w-full p-3 mb-3 bg-slate-900 rounded-lg text-white">
-            <input type="password" id="password" placeholder="كلمة المرور" class="w-full p-3 mb-4 bg-slate-900 rounded-lg text-white">
-            <button onclick="checkLogin()" class="w-full bg-red-600 p-3 rounded-lg font-bold">تسجيل الدخول</button>
-        </div>
-    </div>
-
-    <!-- 2. النظام الداخلي -->
-    <div id="main-system" class="hidden flex min-h-screen">
-        <aside class="w-64 border-l border-slate-800 p-6">
-            <h2 class="text-red-500 font-black mb-8 text-lg">نظام LSFD</h2>
-            <nav class="space-y-3">
-                <button onclick="switchPage('page-main', this)" class="nav-btn active w-full text-right p-3 rounded-lg font-bold hover:bg-slate-800">الرئيسية</button>
-                <button onclick="switchPage('page-data', this)" class="nav-btn w-full text-right p-3 rounded-lg font-bold hover:bg-slate-800">قاعدة البيانات</button>
-            </nav>
-        </aside>
-
-        <main class="flex-1 p-8">
-            <!-- الرئيسية (تم ملؤها بدلاً من كونها فارغة) -->
-            <div id="page-main" class="page-content active">
-                <h1 class="text-3xl font-black">مرحباً بك في لوحة تحكم LSFD</h1>
-                <p class="text-slate-400 mt-4">هذه هي الصفحة الرئيسية للنظام. يمكنك إدارة العمليات والاطلاع على التحديثات من هنا.</p>
-                <div class="mt-8 p-6 bg-slate-900 border border-slate-800 rounded-xl">
-                    <h3 class="font-bold text-red-500">آخر التنبيهات</h3>
-                    <p class="text-sm mt-2">لا توجد بلاغات طارئة حالياً في القطاع.</p>
-                </div>
-            </div>
-
-            <!-- قاعدة البيانات -->
-            <div id="page-data" class="page-content">
-                <h2 class="text-2xl font-black mb-4">سجل البيانات المحدث</h2>
-                <div class="w-full h-[600px] bg-white rounded-xl overflow-hidden">
-                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8PGYWzptkr8tz_GwDa0acWJpL8LX6ZV6EtlOXw0bQvS3MfuVP6DAVYvbafkqiKoaOH7ez5Nu6MS5g/pubhtml" class="w-full h-full border-none"></iframe>
-                </div>
-            </div>
-        </main>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="bg-[#0b0c16] p-8 rounded-2xl border border-slate-800 w-96 text-center">
+        <h2 class="text-2xl font-black mb-6 text-red-500">دخول قيادة LSFD</h2>
+        <input type="text" id="username" placeholder="اسم المستخدم" class="w-full p-3 mb-3 bg-slate-900 rounded-lg text-white text-center">
+        <input type="password" id="password" placeholder="كلمة المرور" class="w-full p-3 mb-4 bg-slate-900 rounded-lg text-white text-center">
+        <button onclick="login()" class="w-full bg-red-600 p-3 rounded-lg font-bold">تسجيل الدخول</button>
     </div>
 
     <script>
-        function checkLogin() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            // يمكنك تغيير "admin" و "123" لأي بيانات دخول تريدها
-            if(user === "admin" && pass === "123") {
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('main-system').style.display = 'flex';
+        function login() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            // يمكنك تغيير الاسم والباسورد من هنا
+            if(u === "admin" && p === "123") {
+                window.location.href = "lsfd.html";
             } else {
-                alert("خطأ في اسم المستخدم أو كلمة المرور");
+                alert("بيانات الدخول خاطئة!");
             }
-        }
-
-        function switchPage(pageId, btn) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            btn.classList.add('active');
         }
     </script>
 </body>
