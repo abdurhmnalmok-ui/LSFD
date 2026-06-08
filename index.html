@@ -2,53 +2,49 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | بوابة Los Santos</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #10111a; display: flex; justify-content: center; align-items: center; height: 100vh; color: #fff; }
-        .login-container { background: #161722; padding: 40px; border-radius: 10px; box-shadow: 0 15px 25px rgba(0,0,0,0.5); width: 400px; text-align: center; border-top: 4px solid #ef4444; }
-        h2 { margin-bottom: 20px; color: #ef4444; font-weight: bold; }
-        .input-group { margin-bottom: 20px; text-align: right; }
-        label { display: block; margin-bottom: 8px; color: #9ca3af; font-size: 14px; }
-        input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #374151; background: #1f2029; color: #fff; font-size: 16px; outline: none; text-align: right; }
-        input:focus { border-color: #ef4444; }
-        button { width: 100%; padding: 12px; background: #ef4444; border: none; border-radius: 6px; color: white; font-size: 16px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #dc2626; }
-        .error-msg { color: #f87171; font-size: 14px; margin-top: 10px; display: none; }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>body { font-family: 'Cairo', sans-serif; background-color: #06070d; color: white; } .page-content { display: none; } .page-content.active { display: block; }</style>
 </head>
 <body>
 
-<div class="login-container">
-    <h2>بوابة تسجيل الدخول</h2>
-    <form id="loginForm">
-        <div class="input-group">
-            <label>اسم المستخدم</label>
-            <input type="text" id="username" required placeholder="أدخل اسم المستخدم">
-        </div>
-        <div class="input-group">
-            <label>كلمة المرور</label>
-            <input type="password" id="password" required placeholder="أدخل كلمة المرور">
-        </div>
-        <button type="submit">تسجيل الدخول</button>
-        <div class="error-msg" id="errorMsg">اسم المستخدم أو كلمة المرور غير صحيحة!</div>
-    </form>
-</div>
+    <main class="flex min-h-screen">
+        <!-- القائمة الجانبية -->
+        <aside class="w-64 border-l border-slate-800 p-6">
+            <h2 class="text-red-500 font-black mb-6">قائمة التحكم LSFD</h2>
+            <nav class="space-y-2">
+                <button onclick="switchPage('page-main', this)" class="nav-btn w-full text-right p-3 bg-slate-900 rounded-lg">الرئيسية</button>
+                <button onclick="switchPage('page-data', this)" class="nav-btn w-full text-right p-3 hover:bg-slate-800 rounded-lg">قاعدة البيانات</button>
+            </nav>
+        </aside>
 
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const user = document.getElementById('username').value;
-        const pass = document.getElementById('password').value;
+        <!-- المحتوى الرئيسي -->
+        <div class="flex-1 p-8">
+            <!-- صفحة الرئيسية -->
+            <div id="page-main" class="page-content active">
+                <h1 class="text-2xl font-bold">مرحباً بك في نظام LSFD</h1>
+                <p class="text-slate-400 mt-4">استخدم القائمة الجانبية للتنقل.</p>
+            </div>
 
-        // بيانات الدخول التجريبية
-        if ((user === "admin" && pass === "admin123")) {
-            window.location.href = 'lsfd.html'; 
-        } else {
-            document.getElementById('errorMsg').style.display = 'block';
+            <!-- صفحة الجدول (المضافة حديثاً) -->
+            <div id="page-data" class="page-content">
+                <h2 class="text-xl font-bold mb-4">قاعدة البيانات</h2>
+                <div class="w-full h-[600px] bg-white rounded-xl overflow-hidden">
+                    <iframe 
+                        src="https://docs.google.com/spreadsheets/d/1Nf0Gc2nkUTuug4YLwuAQpkj9OVjTZH9dbRMqAsuZ6GA/pubhtml?widget=true&amp;headers=false" 
+                        class="w-full h-full border-none">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function switchPage(pageId, btn) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
         }
-    });
-</script>
+    </script>
 </body>
 </html>
