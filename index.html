@@ -3,65 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #06070d; color: white; font-family: sans-serif; }
+        body { font-family: 'Cairo', sans-serif; background-color: #06070d; color: white; }
         .page-content { display: none; }
         .page-content.active { display: block; }
-        iframe { width: 100%; height: 80vh; border: none; }
-        /* تنسيق الزر النشط */
-        .nav-btn.active { background-color: #dc2626; }
+        /* تنسيق الزر النشط في القائمة */
+        .nav-btn.active { background-color: #dc2626; color: white; }
     </style>
 </head>
 <body>
 
-    <!-- صفحة تسجيل الدخول -->
+    <!-- 1. صفحة تسجيل الدخول (التي تظهر عند البداية) -->
     <div id="login-page" class="flex items-center justify-center min-h-screen">
         <div class="bg-[#0b0c16] p-8 rounded-2xl border border-slate-800 w-96 text-center">
             <h2 class="text-2xl font-black mb-6 text-red-500">دخول قيادة LSFD</h2>
-            <input type="password" id="pass" placeholder="أدخل رمز الدخول" class="w-full p-3 mb-4 bg-slate-900 rounded-lg text-center">
+            <input type="password" id="pass" placeholder="أدخل رمز الدخول" class="w-full p-3 mb-4 bg-slate-900 rounded-lg text-center text-white">
             <button onclick="checkPassword()" class="w-full bg-red-600 p-3 rounded-lg font-bold">دخول النظام</button>
         </div>
     </div>
 
-    <!-- النظام الداخلي -->
+    <!-- 2. النظام الداخلي (مخفي حتى يتم تسجيل الدخول) -->
     <div id="main-system" class="hidden flex min-h-screen">
         <aside class="w-64 border-l border-slate-800 p-6">
             <h2 class="text-red-500 font-black mb-8 text-lg">نظام LSFD</h2>
             <nav class="space-y-3">
-                <button onclick="switchPage('page-main', this)" class="nav-btn w-full text-right p-3 rounded-lg font-bold active">الرئيسية</button>
-                <button onclick="switchPage('page-data', this)" class="nav-btn w-full text-right p-3 hover:bg-slate-800 rounded-lg font-bold">قاعدة البيانات</button>
+                <button onclick="switchPage('page-main', this)" class="nav-btn active w-full text-right p-3 rounded-lg font-bold hover:bg-slate-800">الرئيسية</button>
+                <button onclick="switchPage('page-data', this)" class="nav-btn w-full text-right p-3 rounded-lg font-bold hover:bg-slate-800">قاعدة البيانات</button>
             </nav>
         </aside>
 
         <main class="flex-1 p-8">
+            <!-- صفحة الرئيسية -->
             <div id="page-main" class="page-content active">
                 <h1 class="text-3xl font-black">لوحة تحكم LSFD</h1>
+                <p class="text-slate-400 mt-4">تم الدخول بنجاح إلى النظام.</p>
             </div>
 
+            <!-- صفحة الجدول -->
             <div id="page-data" class="page-content">
                 <h2 class="text-2xl font-black mb-4">سجل البيانات المحدث</h2>
-                <div class="bg-white p-2 rounded-xl">
-                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8PGYWzptkr8tz_GwDa0acWJpL8LX6ZV6EtlOXw0bQvS3MfuVP6DAVYvbafkqiKoaOH7ez5Nu6MS5g/pubhtml"></iframe>
+                <div class="w-full h-[600px] bg-white rounded-xl overflow-hidden">
+                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8PGYWzptkr8tz_GwDa0acWJpL8LX6ZV6EtlOXw0bQvS3MfuVP6DAVYvbafkqiKoaOH7ez5Nu6MS5g/pubhtml" class="w-full h-full border-none"></iframe>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
+        // دالة التحقق من الرمز
         function checkPassword() {
-            if(document.getElementById('pass').value === "123") {
+            const pass = document.getElementById('pass').value;
+            if(pass === "123") { // يمكنك تغيير الرمز من هنا
                 document.getElementById('login-page').style.display = 'none';
                 document.getElementById('main-system').style.display = 'flex';
-            } else { alert("رمز خطأ"); }
+            } else {
+                alert("رمز دخول خاطئ!");
+            }
         }
 
+        // دالة التنقل بين الصفحات
         function switchPage(pageId, btn) {
-            // إخفاء جميع الصفحات
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            // إزالة اللون من جميع الأزرار
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            
-            // تفعيل الصفحة والزر المختار
             document.getElementById(pageId).classList.add('active');
             btn.classList.add('active');
         }
